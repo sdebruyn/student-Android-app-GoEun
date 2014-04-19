@@ -46,9 +46,8 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
         HttpGet request = new HttpGet(getAbsoluteUrl(relativeUrl));
         request.addHeader("Accept", "application/json, text/json");
         request.addHeader("Accept-Charset", "utf-8");
-        HttpResponse response = null;
         try {
-            response = client.execute(request);
+            HttpResponse response = client.execute(request);
             int code = response.getStatusLine().getStatusCode();
             if(code >= 300)
                 return null;
@@ -65,9 +64,7 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
             JSONObject jResult = new JSONObject(result);
             return jResult;
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
