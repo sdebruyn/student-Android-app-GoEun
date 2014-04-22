@@ -15,6 +15,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.widget.TextView;
 
 import be.muel.sa.R;
+import be.muel.sa.data.ApiRequestTask;
+import be.muel.sa.data.RequestType;
 
 public class MainActivity extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -129,6 +131,8 @@ public class MainActivity extends Activity
         }
 
         public PlaceholderFragment() {
+            ApiRequestTask task = new ApiRequestTask();
+            task.execute(RequestType.INFORMATION, null, null);
         }
 
         @Override
