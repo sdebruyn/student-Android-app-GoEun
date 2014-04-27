@@ -6,15 +6,14 @@ package be.muel.sa.entities;
 public class Photo {
 
     private int id;
-    private String link;
+    private final String link;
     private Room room;
     private PlaceOfInterest placeOfInterest;
     private Promotion promotion;
 
-    //constructors
     public Photo(int id, String link) {
         setId(id);
-        setLink(link);
+        this.link = link;
     }
 
     public int getId() {
@@ -27,10 +26,6 @@ public class Photo {
 
     public String getLink() {
         return link;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
     }
 
     public Room getRoom() {

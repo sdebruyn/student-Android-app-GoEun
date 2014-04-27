@@ -17,7 +17,6 @@ public class OpeningHour {
     private WeekDay day;
     private final PlaceOfInterest placeOfInterest;
 
-    //constructors
     public OpeningHour(int id, Time start, Time end, WeekDay day, PlaceOfInterest placeOfInterest) {
         setId(id);
         setStart(start);
