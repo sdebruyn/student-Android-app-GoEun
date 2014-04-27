@@ -7,13 +7,10 @@ import android.util.Log;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpUriRequest;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,31 +21,30 @@ import be.muel.sa.entities.Promotion;
 import be.muel.sa.entities.Room;
 
 /**
-* Created by Samuel on 19/04/2014.
-*/
+ * Created by Samuel on 19/04/2014.
+ */
 public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
 
     private final static String DEBUG_TAG = "BBappAPI";
-
-    @Override
-    protected Object doInBackground(RequestType... requestTypes) {
-        switch (requestTypes[0]){
-            case INFORMATION:
-            default:
-                return getInformation();
-            case ROOMS:
-                return getRooms();
-        }
-    }
-
     private static final String baseUrl = "http://mi4.sa.muel.be/";
     private static final AndroidHttpClient client = AndroidHttpClient.newInstance("Android BBApp");
 
-    private String getAbsoluteUrl(String relativeUrl){
+    @Override
+    protected Object doInBackground(RequestType... requestTypes) {
+        switch (requestTypes[0]) {
+            case ROOMS:
+                return getRooms();
+            default:
+            case INFORMATION:
+                return getInformation();
+        }
+    }
+
+    private String getAbsoluteUrl(String relativeUrl) {
         return baseUrl + relativeUrl;
     }
 
-    private Information getInformation(){
+    private Information getInformation() {
         Information inf = null;
         try {
             JSONObject response = getResponse("information");
@@ -65,55 +61,87 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
         return inf;
     }
 
-    private List<Room> getRooms(){
+    private List<Room> getRooms() {
         List<Room> result = new ArrayList<Room>();
-        try{
+        try {
             JSONObject response = getResponse("rooms");
             JSONArray iResponse = response.getJSONArray("rooms");
-            for(int i = 0; i < iResponse.length(); i++){
+            for (int i = 0; i < iResponse.length(); i++) {
                 JSONObject obj = iResponse.getJSONObject(i);
-                JSONArray jPhotos = obj.getJSONArray("Photo");
-                result.add(parseRoom(obj.getJSONObject("Room")));
+                Room room = parseRoom(obj.getJSONObject("Room"));
+                if (room != null) {
+                    JSONArray jPhotos = obj.getJSONArray("Photo");
+                    for (int j = 0; j < jPhotos.length(); j++) {
+                        Photo photo = parsePhoto(jPhotos.getJSONObject(j));
+                        if (photo != null) {
+                            photo.setRoom(room);
+                            room.addPhoto(photo);
+                        }
+                    }
+                    JSONArray jPromotions = obj.getJSONArray("Promotion");
+                    for(int k = 0; k < jPromotions.length(); k++){
+                        Promotion promotion = parsePromotion(jPromotions.getJSONObject(k));
+                        if(promotion != null){
+                            promotion.setRoom(room);
+                            room.addPromotion(promotion);
+                        }
+                    }
+                    result.add(room);
+                }
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             Log.d(DEBUG_TAG, e.toString(), e);
         }
         return result;
     }
 
-    private Room parseRoom(JSONObject jObj){
+    private Room parseRoom(JSONObject jObj) {
         Room result = null;
-        try{
+        try {
             int id = jObj.getInt("id");
             String name = jObj.getString("name");
             int price = jObj.getInt("price");
             String desc = jObj.getString("description");
             int type = jObj.getInt("type");
             result = new Room(id, name, desc, type, price);
-        }catch(Exception e){
+        } catch (Exception e) {
             Log.d(DEBUG_TAG, e.toString(), e);
         }
         return result;
     }
 
-    private Photo parsePhoto(JSONObject jObj){
+    private Photo parsePhoto(JSONObject jObj) {
         Photo photo = null;
-        try{
-
-        }catch(Exception e){
+        try {
+            int id = jObj.getInt("id");
+            String link = jObj.getString("link");
+            photo = new Photo(id, link);
+        } catch (Exception e) {
             Log.d(DEBUG_TAG, e.toString(), e);
         }
         return photo;
     }
 
-    private JSONObject getResponse(String relativeUrl){
+    private Promotion parsePromotion(JSONObject jObj) {
+        Promotion promotion = null;
+        try {
+            int id = jObj.getInt("id");
+            String desc = jObj.getString("description");
+            promotion = new Promotion(id, desc);
+        } catch (Exception e) {
+            Log.d(DEBUG_TAG, e.toString(), e);
+        }
+        return promotion;
+    }
+
+    private JSONObject getResponse(String relativeUrl) {
         HttpGet request = new HttpGet(getAbsoluteUrl(relativeUrl));
         request.addHeader("Accept", "application/json, text/json");
         request.addHeader("Accept-Charset", "utf-8");
         try {
             HttpResponse response = client.execute(request);
             int code = response.getStatusLine().getStatusCode();
-            if(code >= 300)
+            if (code >= 300)
                 return null;
 
             HttpEntity entity = response.getEntity();

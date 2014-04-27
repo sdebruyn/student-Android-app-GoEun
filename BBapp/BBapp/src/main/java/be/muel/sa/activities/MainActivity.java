@@ -1,22 +1,23 @@
 package be.muel.sa.activities;
 
-import android.app.Activity;
-;
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v4.widget.DrawerLayout;
 import android.widget.TextView;
 
 import be.muel.sa.R;
 import be.muel.sa.data.ApiRequestTask;
 import be.muel.sa.data.RequestType;
+
+;
 
 public class MainActivity extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -118,6 +119,11 @@ public class MainActivity extends Activity
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
 
+        public PlaceholderFragment() {
+            ApiRequestTask task = new ApiRequestTask();
+            task.execute(RequestType.ROOMS, null, null);
+        }
+
         /**
          * Returns a new instance of this fragment for the given section
          * number.
@@ -130,14 +136,9 @@ public class MainActivity extends Activity
             return fragment;
         }
 
-        public PlaceholderFragment() {
-            ApiRequestTask task = new ApiRequestTask();
-            task.execute(RequestType.ROOMS, null, null);
-        }
-
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
+                                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));

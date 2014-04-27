@@ -8,13 +8,13 @@ import java.util.List;
  */
 public class Room {
 
+    private final List<Promotion> promotions;
+    private final List<Photo> photos;
     private int id;
     private String name;
     private String description;
     private int type;
     private double price;
-    private final List<Promotion> promotions;
-    private final List<Photo> photos;
 
     public Room(int id, String name, String description, int type, double price) {
         setId(id);
@@ -66,19 +66,19 @@ public class Room {
         this.price = price;
     }
 
-    public void addPromotion(Promotion promotion){
+    public void addPromotion(Promotion promotion) {
         promotions.add(promotion);
     }
 
-    public void removePromotion(Promotion promotion){
+    public void removePromotion(Promotion promotion) {
         promotions.remove(promotion);
     }
 
-    public List<Promotion> getPromotions(){
+    public List<Promotion> getPromotions() {
         return promotions;
     }
 
-    public void addPhoto(Photo photo){
+    public void addPhoto(Photo photo) {
         photos.add(photo);
     }
 
@@ -86,7 +86,18 @@ public class Room {
         return photos;
     }
 
-    public void removePhoto(Photo photo){
+    public void removePhoto(Photo photo) {
         photos.remove(photo);
+    }
+
+    @Override
+    public String toString() {
+        return "Room{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", type=" + type +
+                ", price=" + price +
+                '}';
     }
 }

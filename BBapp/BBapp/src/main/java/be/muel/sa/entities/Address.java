@@ -108,4 +108,20 @@ public class Address {
     public void setCountry(Country country) {
         this.country = country;
     }
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", addressLine1='" + addressLine1 + '\'' +
+                ", addressLine2='" + addressLine2 + '\'' +
+                ", addressLine3='" + addressLine3 + '\'' +
+                ", addressLine4='" + addressLine4 + '\'' +
+                ", locality='" + locality + '\'' +
+                ", region='" + region + '\'' +
+                ", zipCode='" + zipCode + '\'' +
+                ", country=" + country +
+                '}';
+    }
 }

@@ -8,18 +8,13 @@ import java.util.List;
  */
 public class PlaceOfInterest {
 
-    public enum POIType{
-        RESTAURANT, MUSEUM
-    }
-
+    private final List<OpeningHour> openingHours;
+    private final List<Photo> photos;
     private int id;
     private String name;
     private String telephone;
     private Address address;
     private POIType type;
-    private final List<OpeningHour> openingHours;
-    private final List<Photo> photos;
-
     public PlaceOfInterest(int id, String name, String telephone, POIType type, Address address) {
         setId(id);
         setName(name);
@@ -70,19 +65,19 @@ public class PlaceOfInterest {
         this.type = type;
     }
 
-    public void addOpeningHour(OpeningHour openingHour){
+    public void addOpeningHour(OpeningHour openingHour) {
         openingHours.add(openingHour);
     }
 
-    public List<OpeningHour> getOpeningHours(){
+    public List<OpeningHour> getOpeningHours() {
         return openingHours;
     }
 
-    public void removeOpeningHour(OpeningHour openingHour){
+    public void removeOpeningHour(OpeningHour openingHour) {
         openingHours.remove(openingHour);
     }
 
-    public void addPhoto(Photo photo){
+    public void addPhoto(Photo photo) {
         photos.add(photo);
     }
 
@@ -90,7 +85,22 @@ public class PlaceOfInterest {
         return photos;
     }
 
-    public void removePhoto(Photo photo){
+    public void removePhoto(Photo photo) {
         photos.remove(photo);
+    }
+
+    @Override
+    public String toString() {
+        return "PlaceOfInterest{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", telephone='" + telephone + '\'' +
+                ", address=" + address +
+                ", type=" + type +
+                '}';
+    }
+
+    public enum POIType {
+        RESTAURANT, MUSEUM
     }
 }

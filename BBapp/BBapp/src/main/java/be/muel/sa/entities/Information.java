@@ -5,12 +5,12 @@ package be.muel.sa.entities;
  */
 public class Information {
 
+    public final static int ID = 1;
     private String telephone;
     private String cellPhone;
     private String email;
     private String description;
     private String breakfast;
-    public final static int ID = 1;
 
     //constructors
     public Information(String telephone, String cellPhone, String email, String description, String breakfast) {
@@ -59,5 +59,16 @@ public class Information {
 
     public void setBreakfast(String breakfast) {
         this.breakfast = breakfast;
+    }
+
+    @Override
+    public String toString() {
+        return "Information{" +
+                "telephone='" + telephone + '\'' +
+                ", cellPhone='" + cellPhone + '\'' +
+                ", email='" + email + '\'' +
+                ", description='" + description + '\'' +
+                ", breakfast='" + breakfast + '\'' +
+                '}';
     }
 }

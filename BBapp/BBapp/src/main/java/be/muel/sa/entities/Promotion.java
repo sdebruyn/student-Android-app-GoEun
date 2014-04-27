@@ -8,15 +8,14 @@ import java.util.List;
  */
 public class Promotion {
 
+    private Room room;
+    private final List<Photo> photos;
     private int id;
     private String description;
-    private final Room room;
-    private final List<Photo> photos;
 
-    public Promotion(int id, String description, Room room) {
+    public Promotion(int id, String description) {
         setId(id);
         setDescription(description);
-        this.room = room;
         photos = new ArrayList<Photo>();
     }
 
@@ -40,7 +39,7 @@ public class Promotion {
         return room;
     }
 
-    public void addPhoto(Photo photo){
+    public void addPhoto(Photo photo) {
         photos.add(photo);
     }
 
@@ -48,7 +47,19 @@ public class Promotion {
         return photos;
     }
 
-    public void removePhoto(Photo photo){
+    public void removePhoto(Photo photo) {
         photos.remove(photo);
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
+    }
+
+    @Override
+    public String toString() {
+        return "Promotion{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

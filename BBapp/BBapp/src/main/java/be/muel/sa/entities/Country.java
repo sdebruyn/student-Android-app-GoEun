@@ -20,4 +20,12 @@ public class Country {
     public String getName() {
         return name;
     }
+
+    @Override
+    public String toString() {
+        return "Country{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

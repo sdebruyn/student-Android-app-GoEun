@@ -7,16 +7,11 @@ import java.sql.Time;
  */
 public class OpeningHour {
 
-    public enum WeekDay{
-        SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY
-    }
-
+    private final PlaceOfInterest placeOfInterest;
     private int id;
     private Time start;
     private Time end;
     private WeekDay day;
-    private final PlaceOfInterest placeOfInterest;
-
     public OpeningHour(int id, Time start, Time end, WeekDay day, PlaceOfInterest placeOfInterest) {
         setId(id);
         setStart(start);
@@ -59,6 +54,20 @@ public class OpeningHour {
 
     public PlaceOfInterest getPlaceOfInterest() {
         return placeOfInterest;
+    }
+
+    @Override
+    public String toString() {
+        return "OpeningHour{" +
+                "id=" + id +
+                ", start=" + start +
+                ", end=" + end +
+                ", day=" + day +
+                '}';
+    }
+
+    public enum WeekDay {
+        SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY
     }
 
 }

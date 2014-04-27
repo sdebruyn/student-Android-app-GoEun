@@ -5,8 +5,8 @@ package be.muel.sa.entities;
  */
 public class Photo {
 
-    private int id;
     private final String link;
+    private int id;
     private Room room;
     private PlaceOfInterest placeOfInterest;
     private Promotion promotion;
@@ -50,5 +50,13 @@ public class Photo {
 
     public void setPromotion(Promotion promotion) {
         this.promotion = promotion;
+    }
+
+    @Override
+    public String toString() {
+        return "Photo{" +
+                "link='" + link + '\'' +
+                ", id=" + id +
+                '}';
     }
 }
