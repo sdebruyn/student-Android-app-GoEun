@@ -5,31 +5,20 @@ package be.muel.sa.entities;
  */
 public class Information {
 
-    //variables
-    private int id;
     private String telephone;
     private String cellPhone;
     private String email;
     private String description;
     private String breakfast;
+    public final static int ID = 1;
 
     //constructors
-    public Information(int id, String telephone, String cellPhone, String email, String description, String breakfast) {
-        this.id = id;
-        this.telephone = telephone;
-        this.cellPhone = cellPhone;
-        this.email = email;
-        this.description = description;
-        this.breakfast = breakfast;
-    }
-
-    //methods
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public Information(String telephone, String cellPhone, String email, String description, String breakfast) {
+        setTelephone(telephone);
+        setCellPhone(cellPhone);
+        setEmail(email);
+        setDescription(description);
+        setBreakfast(breakfast);
     }
 
     public String getTelephone() {

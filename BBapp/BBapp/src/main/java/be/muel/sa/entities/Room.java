@@ -1,29 +1,24 @@
 package be.muel.sa.entities;
 
-import java.lang.reflect.Type;
-
 /**
  * Created by Samuel on 25/03/2014.
  */
 public class Room {
 
-    //variables
     private int id;
     private String name;
     private String description;
     private int type;
-    private int price;
+    private double price;
 
-    //constructors
-    public Room(int id, String name, String description, int type, int price) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.type = type;
-        this.price = price;
+    public Room(int id, String name, String description, int type, double price) {
+        setId(id);
+        setName(name);
+        setDescription(description);
+        setType(type);
+        setPrice(price);
     }
 
-    //methods
     public int getId() {
         return id;
     }
@@ -56,11 +51,11 @@ public class Room {
         this.type = type;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 }

@@ -5,24 +5,24 @@ package be.muel.sa.entities;
  */
 public class PlaceOfInterest {
 
-    //variables
+    public enum POIType{
+        RESTAURANT, MUSEUM
+    }
+
     private int id;
     private String name;
     private String telephone;
-    private int type;
-
     private Address address;
+    private POIType type;
 
-    //constructors
-    public PlaceOfInterest(int id, String name, String telephone, int type, Address address) {
-        this.id = id;
-        this.name = name;
-        this.telephone = telephone;
-        this.type = type;
-        this.address = address;
+    public PlaceOfInterest(int id, String name, String telephone, POIType type, Address address) {
+        setId(id);
+        setName(name);
+        setTelephone(telephone);
+        setType(type);
+        setAddress(address);
     }
 
-    //methods
     public int getId() {
         return id;
     }
@@ -47,19 +47,19 @@ public class PlaceOfInterest {
         this.telephone = telephone;
     }
 
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
-    }
-
     public Address getAddress() {
         return address;
     }
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public POIType getType() {
+        return type;
+    }
+
+    public void setType(POIType type) {
+        this.type = type;
     }
 }

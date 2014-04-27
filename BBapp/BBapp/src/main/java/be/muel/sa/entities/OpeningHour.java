@@ -7,24 +7,25 @@ import java.sql.Time;
  */
 public class OpeningHour {
 
-    //variables
+    public enum WeekDay{
+        SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY
+    }
+
     private int id;
     private Time start;
     private Time end;
-    private int weekday;
-
-    private PlaceOfInterest placeOfInterest;
+    private WeekDay day;
+    private final PlaceOfInterest placeOfInterest;
 
     //constructors
-    public OpeningHour(int id, Time start, Time end, int weekday, PlaceOfInterest placeOfInterest) {
-        this.id = id;
-        this.start = start;
-        this.end = end;
-        this.weekday = weekday;
+    public OpeningHour(int id, Time start, Time end, WeekDay day, PlaceOfInterest placeOfInterest) {
+        setId(id);
+        setStart(start);
+        setEnd(end);
+        setDay(day);
         this.placeOfInterest = placeOfInterest;
     }
 
-    //methods
     public int getId() {
         return id;
     }
@@ -49,19 +50,16 @@ public class OpeningHour {
         this.end = end;
     }
 
-    public int getWeekday() {
-        return weekday;
+    public WeekDay getDay() {
+        return day;
     }
 
-    public void setWeekday(int weekday) {
-        this.weekday = weekday;
+    public void setDay(WeekDay day) {
+        this.day = day;
     }
 
     public PlaceOfInterest getPlaceOfInterest() {
         return placeOfInterest;
     }
 
-    public void setPlaceOfInterest(PlaceOfInterest placeOfInterest) {
-        this.placeOfInterest = placeOfInterest;
-    }
 }

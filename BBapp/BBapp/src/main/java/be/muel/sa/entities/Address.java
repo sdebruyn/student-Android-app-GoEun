@@ -5,7 +5,6 @@ package be.muel.sa.entities;
  */
 public class Address {
 
-    //variables
     private int id;
     private String name;
     private String addressLine1;
@@ -14,24 +13,22 @@ public class Address {
     private String addressLine4;
     private String locality;
     private String region;
-    private String zipcode;
+    private String zipCode;
     private Country country;
 
-    //constructors
-    public Address(int id, String name, String addressLine1, String addressLine2, String addressLine3, String addressLine4, String locality, String region, String zipcode, Country country) {
-        this.id = id;
-        this.name = name;
-        this.addressLine1 = addressLine1;
-        this.addressLine2 = addressLine2;
-        this.addressLine3 = addressLine3;
-        this.addressLine4 = addressLine4;
-        this.locality = locality;
-        this.region = region;
-        this.zipcode = zipcode;
-        this.country = country;
+    public Address(int id, String name, String addressLine1, String addressLine2, String addressLine3, String addressLine4, String locality, String region, String zipCode, Country country) {
+        setId(id);
+        setName(name);
+        setAddressLine1(addressLine1);
+        setAddressLine2(addressLine2);
+        setAddressLine3(addressLine3);
+        setAddressLine4(addressLine4);
+        setLocality(locality);
+        setRegion(region);
+        setZipCode(zipCode);
+        setCountry(country);
     }
 
-    //methods
     public int getId() {
         return id;
     }
@@ -95,12 +92,13 @@ public class Address {
     public void setRegion(String region) {
         this.region = region;
     }
-    public String getZipcode() {
-        return zipcode;
+
+    public String getZipCode() {
+        return zipCode;
     }
 
-    public void setZipcode(String zipcode) {
-        this.zipcode = zipcode;
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
     }
 
     public Country getCountry() {

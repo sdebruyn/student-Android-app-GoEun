@@ -5,24 +5,18 @@ package be.muel.sa.entities;
  */
 public class Photo {
 
-    //variables
     private int id;
     private String link;
-
     private Room room;
     private PlaceOfInterest placeOfInterest;
     private Promotion promotion;
 
     //constructors
-    public Photo(int id, String link, Room room, PlaceOfInterest placeOfInterest, Promotion promotion) {
-        this.id = id;
-        this.link = link;
-        this.room = room;
-        this.placeOfInterest = placeOfInterest;
-        this.promotion = promotion;
+    public Photo(int id, String link) {
+        setId(id);
+        setLink(link);
     }
 
-    //methods
     public int getId() {
         return id;
     }

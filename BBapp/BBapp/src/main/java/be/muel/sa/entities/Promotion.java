@@ -5,20 +5,16 @@ package be.muel.sa.entities;
  */
 public class Promotion {
 
-    //variables
     private int id;
     private String description;
+    private final Room room;
 
-    private Room room;
-
-    //constructors
     public Promotion(int id, String description, Room room) {
-        this.id = id;
-        this.description = description;
+        setId(id);
+        setDescription(description);
         this.room = room;
     }
 
-    //methods
     public int getId() {
         return id;
     }
@@ -37,9 +33,5 @@ public class Promotion {
 
     public Room getRoom() {
         return room;
-    }
-
-    public void setRoom(Room room) {
-        this.room = room;
     }
 }
