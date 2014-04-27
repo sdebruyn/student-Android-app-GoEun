@@ -132,7 +132,7 @@ public class MainActivity extends Activity
 
         public PlaceholderFragment() {
             ApiRequestTask task = new ApiRequestTask();
-            task.execute(RequestType.INFORMATION, null, null);
+            task.execute(RequestType.ROOMS, null, null);
         }
 
         @Override
