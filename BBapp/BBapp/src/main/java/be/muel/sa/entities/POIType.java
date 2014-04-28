@@ -1,0 +1,21 @@
+package be.muel.sa.entities;
+
+/**
+* Created by Samuel on 28/04/2014.
+*/
+public enum POIType {
+
+    RESTAURANT,
+    MUSEUM;
+
+    public static POIType fromInt(int input){
+        switch(input){
+            case 0:
+            default:
+                return RESTAURANT;
+            case 1:
+                return MUSEUM;
+        }
+    }
+
+}

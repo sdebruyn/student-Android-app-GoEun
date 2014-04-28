@@ -1,5 +1,6 @@
 package be.muel.sa.data;
 
+import android.graphics.Paint;
 import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -15,8 +16,12 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import be.muel.sa.entities.Address;
+import be.muel.sa.entities.Country;
 import be.muel.sa.entities.Information;
+import be.muel.sa.entities.POIType;
 import be.muel.sa.entities.Photo;
+import be.muel.sa.entities.PlaceOfInterest;
 import be.muel.sa.entities.Promotion;
 import be.muel.sa.entities.Room;
 
@@ -34,6 +39,8 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
         switch (requestTypes[0]) {
             case ROOMS:
                 return getRooms();
+            case POI:
+                return getPlacesOfInterest();
             default:
             case INFORMATION:
                 return getInformation();
@@ -42,6 +49,21 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
 
     private String getAbsoluteUrl(String relativeUrl) {
         return baseUrl + relativeUrl;
+    }
+
+    private List<PlaceOfInterest> getPlacesOfInterest(){
+        List<PlaceOfInterest> result = new ArrayList<PlaceOfInterest>();
+        try{
+            JSONObject response = getResponse("places_of_interest");
+            JSONArray iResponse = response.getJSONArray("places_of_interest");
+            for(int i = 0; i < iResponse.length(); i++){
+                JSONObject obj = iResponse.getJSONObject(i);
+                //TODO
+            }
+        }catch(Exception e){
+            Log.d(DEBUG_TAG, e.toString(), e);
+        }
+        return result;
     }
 
     private Information getInformation() {
@@ -105,6 +127,75 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
             int type = jObj.getInt("type");
             result = new Room(id, name, desc, type, price);
         } catch (Exception e) {
+            Log.d(DEBUG_TAG, e.toString(), e);
+        }
+        return result;
+    }
+
+    private PlaceOfInterest parsePOI(JSONObject jObj){
+        PlaceOfInterest result = null;
+        try{
+            int id = jObj.getInt("id");
+            String name = jObj.getString("name");
+            String telephone = jObj.getString("telephone");
+            int type = jObj.getInt("type");
+            POIType pType = POIType.fromInt(type);
+            result = new PlaceOfInterest(id, name, telephone, pType);
+        }catch(Exception e){
+            Log.d(DEBUG_TAG, e.toString(), e);
+        }
+        return result;
+    }
+
+    private Country getCountry(int id){
+        Country result = null;
+        try{
+            JSONObject response = getResponse("countries/" + String.valueOf(id)).getJSONObject("country").getJSONObject("Country");
+            String name = response.getString("name");
+            result = new Country(id, name);
+        }catch(Exception e){
+            Log.d(DEBUG_TAG, e.toString(), e);
+        }
+        return result;
+    }
+
+    private Address parseAddress(JSONObject jObj){
+        Address result = null;
+        try{
+            int id = jObj.getInt("id");
+            int countryID = jObj.getInt("country_id");
+            Country country = getCountry(countryID);
+            String name = jObj.getString("name");
+            String aL1 = "";
+            String aL2 = "";
+            String aL3 = "";
+            String aL4 = "";
+            String locality = "";
+            String region = "";
+            String zipCode = "";
+            if(!jObj.isNull("address_line_1")){
+                aL1 = jObj.getString("address_line_1");
+            }
+            if(!jObj.isNull("address_line_2")){
+                aL2 = jObj.getString("address_line_2");
+            }
+            if(!jObj.isNull("address_line_3")){
+                aL3 = jObj.getString("address_line_3");
+            }
+            if(!jObj.isNull("address_line_4")){
+                aL4 = jObj.getString("address_line_4");
+            }
+            if(!jObj.isNull("locality")){
+                locality = jObj.getString("locality");
+            }
+            if(!jObj.isNull("region")){
+                region = jObj.getString("region");
+            }
+            if(!jObj.isNull("zipcode")){
+                zipCode = jObj.getString("zipcode");
+            }
+            result = new Address(id, name, aL1, aL2, aL3, aL4, locality, region, zipCode, country);
+        }catch(Exception e){
             Log.d(DEBUG_TAG, e.toString(), e);
         }
         return result;

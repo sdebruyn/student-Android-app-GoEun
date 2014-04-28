@@ -15,12 +15,11 @@ public class PlaceOfInterest {
     private String telephone;
     private Address address;
     private POIType type;
-    public PlaceOfInterest(int id, String name, String telephone, POIType type, Address address) {
+    public PlaceOfInterest(int id, String name, String telephone, POIType type) {
         setId(id);
         setName(name);
         setTelephone(telephone);
         setType(type);
-        setAddress(address);
         openingHours = new ArrayList<OpeningHour>();
         photos = new ArrayList<Photo>();
     }
@@ -100,7 +99,4 @@ public class PlaceOfInterest {
                 '}';
     }
 
-    public enum POIType {
-        RESTAURANT, MUSEUM
-    }
 }
