@@ -63,7 +63,28 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
             JSONArray iResponse = response.getJSONArray("places_of_interest");
             for(int i = 0; i < iResponse.length(); i++){
                 JSONObject obj = iResponse.getJSONObject(i);
-                //TODO
+                PlaceOfInterest placeOfInterest = parsePOI(obj.getJSONObject("PlaceOfInterest"));
+                if(placeOfInterest != null){
+                    Address address = parseAddress(obj.getJSONObject("Address"));
+                    placeOfInterest.setAddress(address);
+                    JSONArray jOHours = obj.getJSONArray("OpeningHour");
+                    for(int j = 0; j < jOHours.length(); j++){
+                        OpeningHour oHour = parseOpeningHour(jOHours.getJSONObject(j));
+                        if(oHour != null){
+                            oHour.setPlaceOfInterest(placeOfInterest);
+                            placeOfInterest.addOpeningHour(oHour);
+                        }
+                    }
+                    JSONArray jPhotos = obj.getJSONArray("Photo");
+                    for(int k = 0; k < jPhotos.length(); k++){
+                        Photo photo = parsePhoto(jPhotos.getJSONObject(k));
+                        if(photo != null){
+                            photo.setPlaceOfInterest(placeOfInterest);
+                            placeOfInterest.addPhoto(photo);
+                        }
+                    }
+                    result.add(placeOfInterest);
+                }
             }
         }catch(Exception e){
             Log.d(DEBUG_TAG, e.toString(), e);
