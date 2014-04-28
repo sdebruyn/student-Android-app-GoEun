@@ -12,6 +12,7 @@ public class OpeningHour {
     private Calendar start;
     private Calendar end;
     private WeekDay day;
+
     public OpeningHour(int id, Calendar start, Calendar end, WeekDay day) {
         setId(id);
         setStart(start);
@@ -55,6 +56,10 @@ public class OpeningHour {
         return placeOfInterest;
     }
 
+    public void setPlaceOfInterest(PlaceOfInterest placeOfInterest) {
+        this.placeOfInterest = placeOfInterest;
+    }
+
     @Override
     public String toString() {
         return "OpeningHour{" +
@@ -63,9 +68,5 @@ public class OpeningHour {
                 ", end=" + end +
                 ", day=" + day +
                 '}';
-    }
-
-    public void setPlaceOfInterest(PlaceOfInterest placeOfInterest) {
-        this.placeOfInterest = placeOfInterest;
     }
 }

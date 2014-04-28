@@ -15,6 +15,7 @@ public class PlaceOfInterest {
     private String telephone;
     private Address address;
     private POIType type;
+
     public PlaceOfInterest(int id, String name, String telephone, POIType type) {
         setId(id);
         setName(name);

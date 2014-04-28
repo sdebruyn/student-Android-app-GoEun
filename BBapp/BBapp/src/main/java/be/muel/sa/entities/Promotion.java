@@ -8,8 +8,8 @@ import java.util.List;
  */
 public class Promotion {
 
-    private Room room;
     private final List<Photo> photos;
+    private Room room;
     private int id;
     private String description;
 
@@ -39,6 +39,10 @@ public class Promotion {
         return room;
     }
 
+    public void setRoom(Room room) {
+        this.room = room;
+    }
+
     public void addPhoto(Photo photo) {
         photos.add(photo);
     }
@@ -49,10 +53,6 @@ public class Promotion {
 
     public void removePhoto(Photo photo) {
         photos.remove(photo);
-    }
-
-    public void setRoom(Room room) {
-        this.room = room;
     }
 
     @Override

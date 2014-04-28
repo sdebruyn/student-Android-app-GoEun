@@ -1,6 +1,5 @@
 package be.muel.sa.data;
 
-import android.graphics.Paint;
 import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -16,7 +15,6 @@ import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import be.muel.sa.entities.Address;
@@ -56,29 +54,29 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
         return baseUrl + relativeUrl;
     }
 
-    private List<PlaceOfInterest> getPlacesOfInterest(){
+    private List<PlaceOfInterest> getPlacesOfInterest() {
         List<PlaceOfInterest> result = new ArrayList<PlaceOfInterest>();
-        try{
+        try {
             JSONObject response = getResponse("places_of_interest");
             JSONArray iResponse = response.getJSONArray("places_of_interest");
-            for(int i = 0; i < iResponse.length(); i++){
+            for (int i = 0; i < iResponse.length(); i++) {
                 JSONObject obj = iResponse.getJSONObject(i);
                 PlaceOfInterest placeOfInterest = parsePOI(obj.getJSONObject("PlaceOfInterest"));
-                if(placeOfInterest != null){
+                if (placeOfInterest != null) {
                     Address address = parseAddress(obj.getJSONObject("Address"));
                     placeOfInterest.setAddress(address);
                     JSONArray jOHours = obj.getJSONArray("OpeningHour");
-                    for(int j = 0; j < jOHours.length(); j++){
+                    for (int j = 0; j < jOHours.length(); j++) {
                         OpeningHour oHour = parseOpeningHour(jOHours.getJSONObject(j));
-                        if(oHour != null){
+                        if (oHour != null) {
                             oHour.setPlaceOfInterest(placeOfInterest);
                             placeOfInterest.addOpeningHour(oHour);
                         }
                     }
                     JSONArray jPhotos = obj.getJSONArray("Photo");
-                    for(int k = 0; k < jPhotos.length(); k++){
+                    for (int k = 0; k < jPhotos.length(); k++) {
                         Photo photo = parsePhoto(jPhotos.getJSONObject(k));
-                        if(photo != null){
+                        if (photo != null) {
                             photo.setPlaceOfInterest(placeOfInterest);
                             placeOfInterest.addPhoto(photo);
                         }
@@ -86,7 +84,7 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
                     result.add(placeOfInterest);
                 }
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             Log.d(DEBUG_TAG, e.toString(), e);
         }
         return result;
@@ -127,9 +125,9 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
                         }
                     }
                     JSONArray jPromotions = obj.getJSONArray("Promotion");
-                    for(int k = 0; k < jPromotions.length(); k++){
+                    for (int k = 0; k < jPromotions.length(); k++) {
                         Promotion promotion = parsePromotion(jPromotions.getJSONObject(k));
-                        if(promotion != null){
+                        if (promotion != null) {
                             promotion.setRoom(room);
                             room.addPromotion(promotion);
                         }
@@ -158,36 +156,36 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
         return result;
     }
 
-    private PlaceOfInterest parsePOI(JSONObject jObj){
+    private PlaceOfInterest parsePOI(JSONObject jObj) {
         PlaceOfInterest result = null;
-        try{
+        try {
             int id = jObj.getInt("id");
             String name = jObj.getString("name");
             String telephone = jObj.getString("telephone");
             int type = jObj.getInt("type");
             POIType pType = POIType.fromInt(type);
             result = new PlaceOfInterest(id, name, telephone, pType);
-        }catch(Exception e){
+        } catch (Exception e) {
             Log.d(DEBUG_TAG, e.toString(), e);
         }
         return result;
     }
 
-    private Country getCountry(int id){
+    private Country getCountry(int id) {
         Country result = null;
-        try{
+        try {
             JSONObject response = getResponse("countries/" + String.valueOf(id)).getJSONObject("country").getJSONObject("Country");
             String name = response.getString("name");
             result = new Country(id, name);
-        }catch(Exception e){
+        } catch (Exception e) {
             Log.d(DEBUG_TAG, e.toString(), e);
         }
         return result;
     }
 
-    private Address parseAddress(JSONObject jObj){
+    private Address parseAddress(JSONObject jObj) {
         Address result = null;
-        try{
+        try {
             int id = jObj.getInt("id");
             int countryID = jObj.getInt("country_id");
             Country country = getCountry(countryID);
@@ -199,35 +197,35 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
             String locality = "";
             String region = "";
             String zipCode = "";
-            if(!jObj.isNull("address_line_1")){
+            if (!jObj.isNull("address_line_1")) {
                 aL1 = jObj.getString("address_line_1");
             }
-            if(!jObj.isNull("address_line_2")){
+            if (!jObj.isNull("address_line_2")) {
                 aL2 = jObj.getString("address_line_2");
             }
-            if(!jObj.isNull("address_line_3")){
+            if (!jObj.isNull("address_line_3")) {
                 aL3 = jObj.getString("address_line_3");
             }
-            if(!jObj.isNull("address_line_4")){
+            if (!jObj.isNull("address_line_4")) {
                 aL4 = jObj.getString("address_line_4");
             }
-            if(!jObj.isNull("locality")){
+            if (!jObj.isNull("locality")) {
                 locality = jObj.getString("locality");
             }
-            if(!jObj.isNull("region")){
+            if (!jObj.isNull("region")) {
                 region = jObj.getString("region");
             }
-            if(!jObj.isNull("zipcode")){
+            if (!jObj.isNull("zipcode")) {
                 zipCode = jObj.getString("zipcode");
             }
             result = new Address(id, name, aL1, aL2, aL3, aL4, locality, region, zipCode, country);
-        }catch(Exception e){
+        } catch (Exception e) {
             Log.d(DEBUG_TAG, e.toString(), e);
         }
         return result;
     }
 
-    private OpeningHour parseOpeningHour(JSONObject jObj){
+    private OpeningHour parseOpeningHour(JSONObject jObj) {
         OpeningHour result = null;
         try {
             int id = jObj.getInt("id");
@@ -241,7 +239,7 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
             Calendar end = Calendar.getInstance();
             end.setTime(dateFormat.parse(endStr));
             result = new OpeningHour(id, start, end, wDay);
-        }catch(Exception e){
+        } catch (Exception e) {
             Log.d(DEBUG_TAG, e.toString(), e);
         }
         return result;

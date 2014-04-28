@@ -1,13 +1,13 @@
 package be.muel.sa.entities;
 
 /**
-* Created by Samuel on 28/04/2014.
-*/
+ * Created by Samuel on 28/04/2014.
+ */
 public enum WeekDay {
     SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY;
 
-    public static WeekDay fromInt(int input){
-        switch(input){
+    public static WeekDay fromInt(int input) {
+        switch (input) {
             case 0:
             case 7:
             default:
