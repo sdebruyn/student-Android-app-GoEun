@@ -13,17 +13,22 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import be.muel.sa.entities.Address;
 import be.muel.sa.entities.Country;
 import be.muel.sa.entities.Information;
+import be.muel.sa.entities.OpeningHour;
 import be.muel.sa.entities.POIType;
 import be.muel.sa.entities.Photo;
 import be.muel.sa.entities.PlaceOfInterest;
 import be.muel.sa.entities.Promotion;
 import be.muel.sa.entities.Room;
+import be.muel.sa.entities.WeekDay;
 
 /**
  * Created by Samuel on 19/04/2014.
@@ -195,6 +200,26 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
                 zipCode = jObj.getString("zipcode");
             }
             result = new Address(id, name, aL1, aL2, aL3, aL4, locality, region, zipCode, country);
+        }catch(Exception e){
+            Log.d(DEBUG_TAG, e.toString(), e);
+        }
+        return result;
+    }
+
+    private OpeningHour parseOpeningHour(JSONObject jObj){
+        OpeningHour result = null;
+        try {
+            int id = jObj.getInt("id");
+            int dId = jObj.getInt("weekday");
+            WeekDay wDay = WeekDay.fromInt(dId);
+            String startStr = jObj.getString("start");
+            String endStr = jObj.getString("end");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+            Calendar start = Calendar.getInstance();
+            start.setTime(dateFormat.parse(startStr));
+            Calendar end = Calendar.getInstance();
+            end.setTime(dateFormat.parse(endStr));
+            result = new OpeningHour(id, start, end, wDay);
         }catch(Exception e){
             Log.d(DEBUG_TAG, e.toString(), e);
         }

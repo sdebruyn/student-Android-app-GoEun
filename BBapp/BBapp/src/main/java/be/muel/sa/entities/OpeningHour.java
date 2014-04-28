@@ -1,23 +1,22 @@
 package be.muel.sa.entities;
 
-import java.sql.Time;
+import java.util.Calendar;
 
 /**
  * Created by Samuel on 25/03/2014.
  */
 public class OpeningHour {
 
-    private final PlaceOfInterest placeOfInterest;
+    private PlaceOfInterest placeOfInterest;
     private int id;
-    private Time start;
-    private Time end;
+    private Calendar start;
+    private Calendar end;
     private WeekDay day;
-    public OpeningHour(int id, Time start, Time end, WeekDay day, PlaceOfInterest placeOfInterest) {
+    public OpeningHour(int id, Calendar start, Calendar end, WeekDay day) {
         setId(id);
         setStart(start);
         setEnd(end);
         setDay(day);
-        this.placeOfInterest = placeOfInterest;
     }
 
     public int getId() {
@@ -28,19 +27,19 @@ public class OpeningHour {
         this.id = id;
     }
 
-    public Time getStart() {
+    public Calendar getStart() {
         return start;
     }
 
-    public void setStart(Time start) {
+    public void setStart(Calendar start) {
         this.start = start;
     }
 
-    public Time getEnd() {
+    public Calendar getEnd() {
         return end;
     }
 
-    public void setEnd(Time end) {
+    public void setEnd(Calendar end) {
         this.end = end;
     }
 
@@ -66,8 +65,7 @@ public class OpeningHour {
                 '}';
     }
 
-    public enum WeekDay {
-        SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY
+    public void setPlaceOfInterest(PlaceOfInterest placeOfInterest) {
+        this.placeOfInterest = placeOfInterest;
     }
-
 }
