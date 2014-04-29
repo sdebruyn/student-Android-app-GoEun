@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.List;
+
 import be.muel.sa.R;
 import be.muel.sa.data.ApiRequestTask;
 import be.muel.sa.data.RequestType;
@@ -50,9 +52,9 @@ public class RoomsFragment extends Fragment {
 
             @Override
             protected void onPostExecute(Object o) {
-                Room room = (Room) o;
-                TextView vw = (TextView) rootView.findViewById(R.id.descriptionView);
-                vw.setText(room.getName());
+                List<Room> lijst = (List<Room>)o;
+                TextView vw = (TextView) rootView.findViewById(R.id.textView);
+                vw.setText(lijst.toString());
             }
 
         };
