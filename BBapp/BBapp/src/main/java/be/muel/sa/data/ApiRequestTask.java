@@ -38,6 +38,8 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
     private static final AndroidHttpClient client = AndroidHttpClient.newInstance("Android BBApp");
 
     private Information infoObject = null;
+    private List<Room> roomList = null;
+    private List<PlaceOfInterest> pOIList = null;
 
     @Override
     protected Object doInBackground(RequestType... requestTypes) {
@@ -57,6 +59,9 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
     }
 
     private List<PlaceOfInterest> getPlacesOfInterest() {
+        if(pOIList != null)
+            return pOIList;
+
         List<PlaceOfInterest> result = new ArrayList<PlaceOfInterest>();
         try {
             JSONObject response = getResponse("places_of_interest");
@@ -89,6 +94,7 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
         } catch (Exception e) {
             Log.d(DEBUG_TAG, e.toString(), e);
         }
+        pOIList = result;
         return result;
     }
 
@@ -114,6 +120,9 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
     }
 
     private List<Room> getRooms() {
+        if(roomList != null)
+            return roomList;
+
         List<Room> result = new ArrayList<Room>();
         try {
             JSONObject response = getResponse("rooms");
@@ -144,6 +153,7 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
         } catch (Exception e) {
             Log.d(DEBUG_TAG, e.toString(), e);
         }
+        roomList = result;
         return result;
     }
 
