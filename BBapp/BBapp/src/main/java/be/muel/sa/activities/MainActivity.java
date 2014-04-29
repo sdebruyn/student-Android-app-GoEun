@@ -120,8 +120,7 @@ public class MainActivity extends Activity
         private static final String ARG_SECTION_NUMBER = "section_number";
 
         public PlaceholderFragment() {
-            ApiRequestTask task = new ApiRequestTask();
-            task.execute(RequestType.POI, null, null);
+            
         }
 
         /**
