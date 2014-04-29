@@ -37,10 +37,6 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
     private static final String baseUrl = "http://mi4.sa.muel.be/";
     private static final AndroidHttpClient client = AndroidHttpClient.newInstance("Android BBApp");
 
-    private Information infoObject = null;
-    private List<Room> roomList = null;
-    private List<PlaceOfInterest> pOIList = null;
-
     @Override
     protected Object doInBackground(RequestType... requestTypes) {
         switch (requestTypes[0]) {
@@ -59,102 +55,102 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
     }
 
     private List<PlaceOfInterest> getPlacesOfInterest() {
-        if(pOIList != null)
-            return pOIList;
+        if(CachedApiObjects.getInstance().getpOIList() == null) {
 
-        List<PlaceOfInterest> result = new ArrayList<PlaceOfInterest>();
-        try {
-            JSONObject response = getResponse("places_of_interest");
-            JSONArray iResponse = response.getJSONArray("places_of_interest");
-            for (int i = 0; i < iResponse.length(); i++) {
-                JSONObject obj = iResponse.getJSONObject(i);
-                PlaceOfInterest placeOfInterest = parsePOI(obj.getJSONObject("PlaceOfInterest"));
-                if (placeOfInterest != null) {
-                    Address address = parseAddress(obj.getJSONObject("Address"));
-                    placeOfInterest.setAddress(address);
-                    JSONArray jOHours = obj.getJSONArray("OpeningHour");
-                    for (int j = 0; j < jOHours.length(); j++) {
-                        OpeningHour oHour = parseOpeningHour(jOHours.getJSONObject(j));
-                        if (oHour != null) {
-                            oHour.setPlaceOfInterest(placeOfInterest);
-                            placeOfInterest.addOpeningHour(oHour);
+            List<PlaceOfInterest> result = new ArrayList<PlaceOfInterest>();
+            try {
+                JSONObject response = getResponse("places_of_interest");
+                JSONArray iResponse = response.getJSONArray("places_of_interest");
+                for (int i = 0; i < iResponse.length(); i++) {
+                    JSONObject obj = iResponse.getJSONObject(i);
+                    PlaceOfInterest placeOfInterest = parsePOI(obj.getJSONObject("PlaceOfInterest"));
+                    if (placeOfInterest != null) {
+                        Address address = parseAddress(obj.getJSONObject("Address"));
+                        placeOfInterest.setAddress(address);
+                        JSONArray jOHours = obj.getJSONArray("OpeningHour");
+                        for (int j = 0; j < jOHours.length(); j++) {
+                            OpeningHour oHour = parseOpeningHour(jOHours.getJSONObject(j));
+                            if (oHour != null) {
+                                oHour.setPlaceOfInterest(placeOfInterest);
+                                placeOfInterest.addOpeningHour(oHour);
+                            }
                         }
-                    }
-                    JSONArray jPhotos = obj.getJSONArray("Photo");
-                    for (int k = 0; k < jPhotos.length(); k++) {
-                        Photo photo = parsePhoto(jPhotos.getJSONObject(k));
-                        if (photo != null) {
-                            photo.setPlaceOfInterest(placeOfInterest);
-                            placeOfInterest.addPhoto(photo);
+                        JSONArray jPhotos = obj.getJSONArray("Photo");
+                        for (int k = 0; k < jPhotos.length(); k++) {
+                            Photo photo = parsePhoto(jPhotos.getJSONObject(k));
+                            if (photo != null) {
+                                photo.setPlaceOfInterest(placeOfInterest);
+                                placeOfInterest.addPhoto(photo);
+                            }
                         }
+                        result.add(placeOfInterest);
                     }
-                    result.add(placeOfInterest);
                 }
+            } catch (Exception e) {
+                Log.d(DEBUG_TAG, e.toString(), e);
             }
-        } catch (Exception e) {
-            Log.d(DEBUG_TAG, e.toString(), e);
+            CachedApiObjects.getInstance().setpOIList(result);
         }
-        pOIList = result;
-        return result;
+        return CachedApiObjects.getInstance().getpOIList();
     }
 
     private Information getInformation() {
-        if(infoObject != null)
-            return infoObject;
+        if(CachedApiObjects.getInstance().getInfoObject() == null) {
 
-        Information inf = null;
-        try {
-            JSONObject response = getResponse("information");
-            JSONObject iResponse = response.getJSONObject("information").getJSONObject("Information");
-            String telephone = iResponse.getString("telephone");
-            String cell = iResponse.getString("cell_phone");
-            String mail = iResponse.getString("email");
-            String desc = iResponse.getString("description");
-            String bf = iResponse.getString("breakfast");
-            inf = new Information(telephone, cell, mail, desc, bf);
-        } catch (Exception e) {
-            Log.d(DEBUG_TAG, e.toString(), e);
+            Information inf = null;
+            try {
+                JSONObject response = getResponse("information");
+                JSONObject iResponse = response.getJSONObject("information").getJSONObject("Information");
+                String telephone = iResponse.getString("telephone");
+                String cell = iResponse.getString("cell_phone");
+                String mail = iResponse.getString("email");
+                String desc = iResponse.getString("description");
+                String bf = iResponse.getString("breakfast");
+                inf = new Information(telephone, cell, mail, desc, bf);
+            } catch (Exception e) {
+                Log.d(DEBUG_TAG, e.toString(), e);
+            }
+            CachedApiObjects.getInstance().setInfoObject(inf);
         }
-        infoObject = inf;
-        return inf;
+        return CachedApiObjects.getInstance().getInfoObject();
     }
 
     private List<Room> getRooms() {
-        if(roomList != null)
-            return roomList;
+        if(CachedApiObjects.getInstance().getRoomList() == null) {
 
-        List<Room> result = new ArrayList<Room>();
-        try {
-            JSONObject response = getResponse("rooms");
-            JSONArray iResponse = response.getJSONArray("rooms");
-            for (int i = 0; i < iResponse.length(); i++) {
-                JSONObject obj = iResponse.getJSONObject(i);
-                Room room = parseRoom(obj.getJSONObject("Room"));
-                if (room != null) {
-                    JSONArray jPhotos = obj.getJSONArray("Photo");
-                    for (int j = 0; j < jPhotos.length(); j++) {
-                        Photo photo = parsePhoto(jPhotos.getJSONObject(j));
-                        if (photo != null) {
-                            photo.setRoom(room);
-                            room.addPhoto(photo);
+            List<Room> result = new ArrayList<Room>();
+            try {
+                JSONObject response = getResponse("rooms");
+                JSONArray iResponse = response.getJSONArray("rooms");
+                for (int i = 0; i < iResponse.length(); i++) {
+                    JSONObject obj = iResponse.getJSONObject(i);
+                    Room room = parseRoom(obj.getJSONObject("Room"));
+                    if (room != null) {
+                        JSONArray jPhotos = obj.getJSONArray("Photo");
+                        for (int j = 0; j < jPhotos.length(); j++) {
+                            Photo photo = parsePhoto(jPhotos.getJSONObject(j));
+                            if (photo != null) {
+                                photo.setRoom(room);
+                                room.addPhoto(photo);
+                            }
                         }
-                    }
-                    JSONArray jPromotions = obj.getJSONArray("Promotion");
-                    for (int k = 0; k < jPromotions.length(); k++) {
-                        Promotion promotion = parsePromotion(jPromotions.getJSONObject(k));
-                        if (promotion != null) {
-                            promotion.setRoom(room);
-                            room.addPromotion(promotion);
+                        JSONArray jPromotions = obj.getJSONArray("Promotion");
+                        for (int k = 0; k < jPromotions.length(); k++) {
+                            Promotion promotion = parsePromotion(jPromotions.getJSONObject(k));
+                            if (promotion != null) {
+                                promotion.setRoom(room);
+                                room.addPromotion(promotion);
+                            }
                         }
+                        result.add(room);
                     }
-                    result.add(room);
                 }
+            } catch (Exception e) {
+                Log.d(DEBUG_TAG, e.toString(), e);
             }
-        } catch (Exception e) {
-            Log.d(DEBUG_TAG, e.toString(), e);
+            CachedApiObjects.getInstance().setRoomList(result);
         }
-        roomList = result;
-        return result;
+        return CachedApiObjects.getInstance().getRoomList();
     }
 
     private Room parseRoom(JSONObject jObj) {
@@ -312,4 +308,5 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
         }
         return null;
     }
+
 }
