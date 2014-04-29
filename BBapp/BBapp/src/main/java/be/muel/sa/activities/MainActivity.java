@@ -51,16 +51,16 @@ public class MainActivity extends Activity
                 newContent = WelcomeFragment.newInstance(fragmentNo);
                 break;
             case 2:
-                newContent = PlaceholderFragment.newInstance(fragmentNo);
+                newContent = PromotionsFragment.newInstance(fragmentNo);
                 break;
             case 3:
-                newContent = PlaceholderFragment.newInstance(fragmentNo);
+                newContent = RoomsFragment.newInstance(fragmentNo);
                 break;
             case 4:
-                newContent = PlaceholderFragment.newInstance(fragmentNo);
+                newContent = InformationFragment.newInstance(fragmentNo);
                 break;
             case 5:
-                newContent = PlaceholderFragment.newInstance(fragmentNo);
+                newContent = NearbyFragment.newInstance(fragmentNo);
                 break;
         }
         fragmentManager.beginTransaction()
