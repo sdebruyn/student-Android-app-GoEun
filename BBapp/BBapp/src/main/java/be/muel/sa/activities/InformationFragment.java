@@ -52,6 +52,15 @@ public class InformationFragment extends Fragment {
                 Information info = (Information) o;
                 TextView vw = (TextView) rootView.findViewById(R.id.breakfastTextView);
                 vw.setText(info.getBreakfast());
+
+                vw = (TextView) rootView.findViewById(R.id.telephoneView);
+                vw.setText(info.getTelephone());
+
+                vw = (TextView) rootView.findViewById(R.id.cellPhoneView);
+                vw.setText(info.getCellPhone());
+
+                vw = (TextView) rootView.findViewById(R.id.emailView);
+                vw.setText(info.getEmail());
             }
 
         };
