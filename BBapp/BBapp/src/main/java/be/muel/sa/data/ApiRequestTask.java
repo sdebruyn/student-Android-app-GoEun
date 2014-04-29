@@ -37,6 +37,8 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
     private static final String baseUrl = "http://mi4.sa.muel.be/";
     private static final AndroidHttpClient client = AndroidHttpClient.newInstance("Android BBApp");
 
+    private Information infoObject = null;
+
     @Override
     protected Object doInBackground(RequestType... requestTypes) {
         switch (requestTypes[0]) {
@@ -91,6 +93,9 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
     }
 
     private Information getInformation() {
+        if(infoObject != null)
+            return infoObject;
+
         Information inf = null;
         try {
             JSONObject response = getResponse("information");
@@ -104,6 +109,7 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
         } catch (Exception e) {
             Log.d(DEBUG_TAG, e.toString(), e);
         }
+        infoObject = inf;
         return inf;
     }
 

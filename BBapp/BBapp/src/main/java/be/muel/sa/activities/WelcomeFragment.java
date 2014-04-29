@@ -6,8 +6,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import be.muel.sa.R;
+import be.muel.sa.data.ApiRequestTask;
+import be.muel.sa.data.RequestType;
+import be.muel.sa.entities.Information;
 
 /**
  * Created by Samuel on 29/04/2014.
@@ -39,7 +43,20 @@ public class WelcomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_welcome, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_welcome, container, false);
+
+        ApiRequestTask informationTask = new ApiRequestTask(){
+
+            @Override
+            protected void onPostExecute(Object o) {
+                Information info = (Information) o;
+                TextView vw = (TextView) rootView.findViewById(R.id.descriptionView);
+                vw.setText(info.getDescription());
+            }
+
+        };
+        informationTask.execute(RequestType.INFORMATION, null, null);
+
         return rootView;
     }
 
