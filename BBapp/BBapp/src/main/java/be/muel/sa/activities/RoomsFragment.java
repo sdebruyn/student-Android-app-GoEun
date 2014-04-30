@@ -54,13 +54,12 @@ public class RoomsFragment extends Fragment {
 
             @Override
             protected void onPostExecute(Object o) {
-                List<Room> lijst = (List<Room>)o;
+                List<Room> listRooms = (List<Room>)o;
 
-                String[] test = {"test1","Test2","Test3"};
-
-                ArrayAdapter<Room> adapter = new ArrayAdapter<Room>(getActivity(),R.layout.test,lijst);
+                ArrayAdapter<Room> adapter = new CustomRoomAdapter(getActivity(),R.layout.item_row,listRooms);
 
                 ListView lv = (ListView)rootView.findViewById(R.id.listView);
+
                 lv.setAdapter(adapter);
             }
 

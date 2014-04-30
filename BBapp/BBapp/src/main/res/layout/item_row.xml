@@ -1,41 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:id="@+id/relativeLayout1"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:padding="5dip">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
 
     <ImageView
-        android:layout_width="78dip"
-        android:layout_height="78dip"
-        android:id="@+id/imgThumbnail"
+        android:id="@+id/item_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_centerInParent="true"
-        android:layout_marginLeft="-3dip"
-        android:scaleType="centerInside">
-    </ImageView>
+        android:layout_alignParentTop="true"
+        android:adjustViewBounds="true"
+        android:maxHeight="80dp"
+        android:maxWidth="80dp"
+        android:src="@drawable/bug" />
 
     <TextView
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_height="wrap_content"
-        android:text="TextView"
+        android:id="@+id/textViewTitel"
         android:layout_width="wrap_content"
-        android:id="@+id/txtTitle"
-        android:layout_toRightOf="@+id/imgThumbnail"
-        android:layout_marginTop="6dip"
-        android:layout_marginLeft="6dip">
-    </TextView>
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/item_icon"
+        android:text="Make Shown Here"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
 
     <TextView
-        android:layout_height="wrap_content"
-        android:text="TextView"
+        android:id="@+id/textViewPrijs"
         android:layout_width="wrap_content"
-        android:id="@+id/txtSubTitle"
-        android:layout_toRightOf="@+id/imgThumbnail"
-        android:layout_below="@+id/txtTitle"
-        android:layout_marginTop="3dip"
-        android:layout_marginLeft="6dip">
-    </TextView>
+        android:layout_height="wrap_content"
+        android:text="2000"
+        android:layout_alignBottom="@+id/item_icon"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="42dp" />
+
+
+    <TextView
+        android:id="@+id/textViewType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Condition shown here"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_below="@+id/textViewTitel"
+        android:layout_toRightOf="@+id/item_icon" />
 
 </RelativeLayout>
