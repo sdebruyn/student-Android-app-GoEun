@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -53,8 +55,13 @@ public class RoomsFragment extends Fragment {
             @Override
             protected void onPostExecute(Object o) {
                 List<Room> lijst = (List<Room>)o;
-                TextView vw = (TextView) rootView.findViewById(R.id.textView);
-                vw.setText(lijst.toString());
+
+                String[] test = {"test1","Test2","Test3"};
+
+                ArrayAdapter<Room> adapter = new ArrayAdapter<Room>(getActivity(),R.layout.test,lijst);
+
+                ListView lv = (ListView)rootView.findViewById(R.id.listView);
+                lv.setAdapter(adapter);
             }
 
         };
