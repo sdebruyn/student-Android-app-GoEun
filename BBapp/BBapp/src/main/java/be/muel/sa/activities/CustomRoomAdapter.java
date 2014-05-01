@@ -21,11 +21,9 @@ import be.muel.sa.entities.Room;
  */
 public class CustomRoomAdapter extends ArrayAdapter<Room>{
 
-    private List<Room> listRoomsAdapter = null;
-
     public CustomRoomAdapter(Context context, int resource,List<Room> listRooms) {
         super(context, resource,listRooms);
-        listRoomsAdapter = listRooms;
+        setListRoomsAdapter(listRooms);
 
     }
 
@@ -50,8 +48,14 @@ public class CustomRoomAdapter extends ArrayAdapter<Room>{
 
         TextView txtPrijs = (TextView) itemView.findViewById(R.id.textViewPrijs);
         NumberFormat nm = NumberFormat.getNumberInstance();
-        txtPrijs.setText(nm.format(currentRoom.getPrice()));
+        txtPrijs.setText(nm.format(currentRoom.getPrice())+"€ the night");
 
         return itemView;
+    }
+
+    private List<Room> listRoomsAdapter = null;
+
+    public void setListRoomsAdapter(List<Room> listRoomsAdapter) {
+        this.listRoomsAdapter = listRoomsAdapter;
     }
 }

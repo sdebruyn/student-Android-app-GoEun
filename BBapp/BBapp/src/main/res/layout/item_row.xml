@@ -20,7 +20,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/item_icon"
-        android:text="Make Shown Here"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
 
@@ -28,9 +27,8 @@
         android:id="@+id/textViewPrijs"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="2000"
         android:layout_alignBottom="@+id/item_icon"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentRight="false"
         android:layout_alignParentEnd="true"
         android:layout_marginRight="42dp" />
 
@@ -39,7 +37,6 @@
         android:id="@+id/textViewType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Condition shown here"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_below="@+id/textViewTitel"
         android:layout_toRightOf="@+id/item_icon" />

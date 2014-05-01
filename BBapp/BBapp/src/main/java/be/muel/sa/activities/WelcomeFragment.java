@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import be.muel.sa.R;
@@ -52,6 +53,15 @@ public class WelcomeFragment extends Fragment {
                 Information info = (Information) o;
                 TextView vw = (TextView) rootView.findViewById(R.id.descriptionView);
                 vw.setText(info.getDescription());
+
+                if (vw != null) {
+                    ProgressBar pBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
+                    pBar.setVisibility(rootView.INVISIBLE);
+                }
+                else {
+                    ProgressBar pBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
+                    pBar.setVisibility(rootView.VISIBLE);
+                }
             }
 
         };
