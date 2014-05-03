@@ -4,22 +4,22 @@
     android:layout_height="match_parent" >
 
     <ImageView
-        android:id="@+id/item_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/imageViewRoom"
+        android:layout_width="150px"
+        android:layout_height="150px"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:adjustViewBounds="true"
         android:maxHeight="80dp"
         android:maxWidth="80dp"
-        android:src="@drawable/bug" />
+     />
 
     <TextView
         android:id="@+id/textViewTitel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/item_icon"
+        android:layout_toRightOf="@+id/imageViewRoom"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
 
@@ -27,7 +27,7 @@
         android:id="@+id/textViewPrijs"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/item_icon"
+        android:layout_alignBottom="@+id/imageViewRoom"
         android:layout_alignParentRight="false"
         android:layout_alignParentEnd="true"
         android:layout_marginRight="42dp" />
@@ -39,6 +39,6 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_below="@+id/textViewTitel"
-        android:layout_toRightOf="@+id/item_icon" />
+        android:layout_toRightOf="@+id/imageViewRoom" />
 
 </RelativeLayout>

@@ -53,21 +53,18 @@ public class RoomsFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_rooms, container, false);
 
-        ApiRequestTask informationTask = new ApiRequestTask(){
+        ApiRequestTask roomsTask = new ApiRequestTask(){
 
             @Override
             protected void onPostExecute(Object o) {
-                List<Room> listRooms = (List<Room>)o;
+                List<Room> listRooms = (List<Room>) o;
 
-                ArrayAdapter<Room> adapter = new CustomRoomAdapter(getActivity(),R.layout.item_row,listRooms);
-
-                ListView lv = (ListView)rootView.findViewById(R.id.listView);
-
-                lv.setAdapter(adapter);
-            }
-
+                ArrayAdapter<Room> adapter = new CustomRoomAdapter(getActivity(), R.layout.item_row, listRooms);
+                    ListView lv = (ListView) rootView.findViewById(R.id.listView);
+                    lv.setAdapter(adapter);
+                }
         };
-        informationTask.execute(RequestType.ROOMS, null, null);
+        roomsTask.execute(RequestType.ROOMS, null, null);
 
 
         return rootView;

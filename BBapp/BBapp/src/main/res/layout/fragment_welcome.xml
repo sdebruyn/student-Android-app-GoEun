@@ -11,11 +11,12 @@
         android:id="@+id/descriptionView"
         android:layout_gravity="center" />
 
+
     <ProgressBar
-        style="?android:attr/progressBarStyleSmall"
-        android:layout_width="88dp"
-        android:layout_height="88dp"
-        android:id="@+id/progressBar"
-        android:layout_gravity="center" />
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ProgressBar"
+        android:layout_gravity="center_horizontal|top" />
 
 </FrameLayout>

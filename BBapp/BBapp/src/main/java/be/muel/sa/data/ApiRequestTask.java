@@ -1,5 +1,7 @@
 package be.muel.sa.data;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -11,7 +13,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -47,7 +53,10 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
             default:
             case INFORMATION:
                 return getInformation();
+
         }
+
+
     }
 
     private String getAbsoluteUrl(String relativeUrl) {
@@ -308,5 +317,6 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
         }
         return null;
     }
+
 
 }

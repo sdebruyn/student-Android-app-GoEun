@@ -55,11 +55,11 @@ public class WelcomeFragment extends Fragment {
                 vw.setText(info.getDescription());
 
                 if (vw != null) {
-                    ProgressBar pBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
+                    ProgressBar pBar = (ProgressBar) rootView.findViewById(R.id.ProgressBar);
                     pBar.setVisibility(rootView.INVISIBLE);
                 }
                 else {
-                    ProgressBar pBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
+                    ProgressBar pBar = (ProgressBar) rootView.findViewById(R.id.ProgressBar);
                     pBar.setVisibility(rootView.VISIBLE);
                 }
             }

@@ -1,19 +1,32 @@
 package be.muel.sa.activities;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.NumberFormat;
 import java.util.List;
 
 import be.muel.sa.R;
+import be.muel.sa.data.ApiRequestTask;
+import be.muel.sa.data.RequestType;
+import be.muel.sa.data.URLRequestTask;
 import be.muel.sa.entities.Room;
 
 /**
@@ -30,23 +43,42 @@ public class CustomRoomAdapter extends ArrayAdapter<Room>{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View itemView = convertView;
-        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        if(itemView == null)
-            itemView = inflater.inflate( R.layout.item_row, null );
+        if (itemView == null)
+            itemView = inflater.inflate(R.layout.item_row, null);
 
-        Room currentRoom = listRoomsAdapter.get(position);
+        final Room currentRoom = listRoomsAdapter.get(position);
 
-        ImageView imgView = (ImageView) itemView.findViewById(R.id.item_icon);
-        //imgView.setImageURI();
-
+        final ImageView imageView = (ImageView) itemView.findViewById(R.id.imageViewRoom);
         TextView txtTitel = (TextView) itemView.findViewById(R.id.textViewTitel);
+        TextView txtType = (TextView) itemView.findViewById(R.id.textViewType);
+        TextView txtPrijs = (TextView) itemView.findViewById(R.id.textViewPrijs);
+
+        Bitmap biti = null;
+
+        URLRequestTask URLTask = new URLRequestTask(){
+
+
+
+            @Override
+            protected void onPostExecute(Bitmap bitmap) {
+                try {
+                    imageView.setImageBitmap(bitmap);
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+        };
+        URLTask.execute(currentRoom.getPhotos().get(0).getLink());
+
         txtTitel.setText(currentRoom.getName());
 
-        TextView txtType = (TextView) itemView.findViewById(R.id.textViewType);
         txtType.setText(currentRoom.getDescription());
 
-        TextView txtPrijs = (TextView) itemView.findViewById(R.id.textViewPrijs);
         NumberFormat nm = NumberFormat.getNumberInstance();
         txtPrijs.setText(nm.format(currentRoom.getPrice())+"€ the night");
 
@@ -58,4 +90,6 @@ public class CustomRoomAdapter extends ArrayAdapter<Room>{
     public void setListRoomsAdapter(List<Room> listRoomsAdapter) {
         this.listRoomsAdapter = listRoomsAdapter;
     }
+
+
 }
