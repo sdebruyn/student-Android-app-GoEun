@@ -1,11 +1,14 @@
 package be.muel.sa.entities;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by Samuel on 25/03/2014.
  */
 public class Photo {
 
     private final String link;
+    private Bitmap bitmapLink;
     private int id;
     private Room room;
     private PlaceOfInterest placeOfInterest;
@@ -50,6 +53,14 @@ public class Photo {
 
     public void setPromotion(Promotion promotion) {
         this.promotion = promotion;
+    }
+
+    public Bitmap getBitmapLink() {
+        return bitmapLink;
+    }
+
+    public void setBitmapLink(Bitmap bitmapLink) {
+        this.bitmapLink = bitmapLink;
     }
 
     @Override

@@ -44,10 +44,8 @@ public class URLRequestTask extends AsyncTask<String,Void,Bitmap>{
 
     @Override
     protected Bitmap doInBackground(String... urls) {
-
-        InputStream is=null;
+        InputStream is = null;
         try{
-
             URL myFileUrl = new URL (urls[0]);
             HttpURLConnection conn =
                 (HttpURLConnection) myFileUrl.openConnection();

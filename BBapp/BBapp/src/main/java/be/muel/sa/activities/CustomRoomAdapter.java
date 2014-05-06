@@ -37,7 +37,6 @@ public class CustomRoomAdapter extends ArrayAdapter<Room>{
     public CustomRoomAdapter(Context context, int resource,List<Room> listRooms) {
         super(context, resource,listRooms);
         setListRoomsAdapter(listRooms);
-
     }
 
     @Override
@@ -55,26 +54,24 @@ public class CustomRoomAdapter extends ArrayAdapter<Room>{
         TextView txtType = (TextView) itemView.findViewById(R.id.textViewType);
         TextView txtPrijs = (TextView) itemView.findViewById(R.id.textViewPrijs);
 
-        Bitmap biti = null;
-
+/*
         URLRequestTask URLTask = new URLRequestTask(){
-
-
 
             @Override
             protected void onPostExecute(Bitmap bitmap) {
                 try {
                     imageView.setImageBitmap(bitmap);
-
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
 
         };
-        URLTask.execute(currentRoom.getPhotos().get(0).getLink());
 
+
+        URLTask.execute(currentRoom.getPhotos().get(0).getLink());
+*/
+        imageView.setImageBitmap(currentRoom.getPhotos().get(0).getBitmapLink());
         txtTitel.setText(currentRoom.getName());
 
         txtType.setText(currentRoom.getDescription());

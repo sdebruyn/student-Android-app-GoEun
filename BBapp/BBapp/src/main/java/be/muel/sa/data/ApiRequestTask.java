@@ -266,12 +266,27 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
         return result;
     }
 
+
     private Photo parsePhoto(JSONObject jObj) {
         Photo photo = null;
         try {
             int id = jObj.getInt("id");
             String link = jObj.getString("link");
-            photo = new Photo(id, link);
+            final Photo photoTest = new Photo(id,link);
+
+            URLRequestTask URLTask = new URLRequestTask(){
+
+                @Override
+                protected void onPostExecute(Bitmap bitmap) {
+                    try {
+                        photoTest.setBitmapLink(bitmap);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+            URLTask.execute(photoTest.getLink());
+            photo = photoTest;
         } catch (Exception e) {
             Log.d(DEBUG_TAG, e.toString(), e);
         }
