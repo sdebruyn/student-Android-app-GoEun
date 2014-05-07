@@ -22,6 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import be.muel.sa.entities.Address;
 import be.muel.sa.entities.Country;
@@ -278,7 +279,9 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
 
                 @Override
                 protected void onPostExecute(Bitmap bitmap) {
-                    try {
+                    try
+                    {
+                        new URLRequestTask().execute(photoTest.getLink());
                         photoTest.setBitmapLink(bitmap);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -286,7 +289,9 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
                 }
             };
             URLTask.execute(photoTest.getLink());
+
             photo = photoTest;
+
         } catch (Exception e) {
             Log.d(DEBUG_TAG, e.toString(), e);
         }

@@ -51,7 +51,6 @@ public class URLRequestTask extends AsyncTask<String,Void,Bitmap>{
                 (HttpURLConnection) myFileUrl.openConnection();
             conn.setDoInput(true);
             conn.connect();
-            //is = conn.getInputStream();
             is = (InputStream) myFileUrl.getContent();
 
         }
@@ -62,8 +61,6 @@ public class URLRequestTask extends AsyncTask<String,Void,Bitmap>{
             e.printStackTrace();
         }
         return BitmapFactory.decodeStream(is);
-
-        //return loadImageFromURL(urls[0]);
 
     }
 }
