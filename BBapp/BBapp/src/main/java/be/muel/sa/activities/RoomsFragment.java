@@ -3,19 +3,18 @@ package be.muel.sa.activities;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.List;
 
 import be.muel.sa.R;
 import be.muel.sa.data.ApiRequestTask;
 import be.muel.sa.data.RequestType;
-import be.muel.sa.entities.Information;
 import be.muel.sa.entities.Room;
 
 /**
@@ -28,6 +27,8 @@ public class RoomsFragment extends Fragment {
      * fragment.
      */
     private static final String ARG_SECTION_NUMBER = "section_number";
+
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     public RoomsFragment() {
 
@@ -47,27 +48,35 @@ public class RoomsFragment extends Fragment {
 
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragment_rooms, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_rooms, container, false);
+        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.room_swipe_layout);
+        swipeRefreshLayout.setColorScheme(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
+        return rootView;
+    }
+
+    @Override
+    public void onViewCreated(final View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         ApiRequestTask roomsTask = new ApiRequestTask(){
-
             @Override
             protected void onPostExecute(Object o) {
                 List<Room> listRooms = (List<Room>) o;
 
-                ArrayAdapter<Room> adapter = new CustomRoomAdapter(getActivity(), R.layout.item_row, listRooms);
-                    ListView lv = (ListView) rootView.findViewById(R.id.listView);
+                if(view != null){
+                    ArrayAdapter<Room> adapter = new CustomRoomAdapter(getActivity(), R.layout.roomadapater_row, listRooms);
+                    ListView lv = (ListView) view.findViewById(R.id.listView);
                     lv.setAdapter(adapter);
+                    swipeRefreshLayout.setRefreshing(false);
                 }
+            }
         };
+
+        swipeRefreshLayout.setRefreshing(true);
         roomsTask.execute(RequestType.ROOMS, null, null);
-
-
-        return rootView;
     }
 
     @Override

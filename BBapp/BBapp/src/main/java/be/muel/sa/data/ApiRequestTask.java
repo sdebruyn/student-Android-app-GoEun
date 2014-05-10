@@ -2,6 +2,7 @@ package be.muel.sa.data;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -56,7 +57,6 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
                 return getInformation();
 
         }
-
 
     }
 
@@ -161,6 +161,19 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
             CachedApiObjects.getInstance().setRoomList(result);
         }
         return CachedApiObjects.getInstance().getRoomList();
+    }
+
+    private Bitmap downloadImage(String url){
+        try{
+            URL photoUrl = new URL(url);
+            HttpURLConnection conn = (HttpURLConnection) photoUrl.openConnection();
+            conn.setDoInput(true);
+            conn.connect();
+            InputStream is = (InputStream) photoUrl.getContent();
+            return BitmapFactory.decodeStream(is);
+        }catch(Exception ignored){
+            return null;
+        }
     }
 
     private Room parseRoom(JSONObject jObj) {
@@ -273,8 +286,9 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
         try {
             int id = jObj.getInt("id");
             String link = jObj.getString("link");
-
-            photo = new Photo(id,link);
+            photo = new Photo(id);
+            Bitmap content = downloadImage(link);
+            photo.setBitmap(content);
         } catch (Exception e) {
             Log.d(DEBUG_TAG, e.toString(), e);
         }

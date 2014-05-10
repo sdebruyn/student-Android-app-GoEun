@@ -7,16 +7,14 @@ import android.graphics.Bitmap;
  */
 public class Photo {
 
-    private final String link;
-    private Bitmap bitmapLink;
+    private Bitmap bitmap;
     private int id;
     private Room room;
     private PlaceOfInterest placeOfInterest;
     private Promotion promotion;
 
-    public Photo(int id, String link) {
+    public Photo(int id) {
         setId(id);
-        this.link = link;
     }
 
     public int getId() {
@@ -25,10 +23,6 @@ public class Photo {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getLink() {
-        return link;
     }
 
     public Room getRoom() {
@@ -55,19 +49,18 @@ public class Photo {
         this.promotion = promotion;
     }
 
-    public Bitmap getBitmapLink() {
-        return bitmapLink;
+    public Bitmap getBitmap() {
+        return bitmap;
     }
 
-    public void setBitmapLink(Bitmap bitmapLink) {
-        this.bitmapLink = bitmapLink;
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
     }
 
     @Override
     public String toString() {
         return "Photo{" +
-                "link='" + link + '\'' +
-                ", id=" + id +
+                "id=" + id +
                 '}';
     }
 }

@@ -3,6 +3,7 @@ package be.muel.sa.activities;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,8 @@ public class InformationFragment extends Fragment {
      */
     private static final String ARG_SECTION_NUMBER = "section_number";
 
+    private SwipeRefreshLayout swipeRefreshLayout;
+
     public InformationFragment() {
 
     }
@@ -43,30 +46,41 @@ public class InformationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragment_information, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_information, container, false);
+        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.information_swipe_layout);
+        swipeRefreshLayout.setColorScheme(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
+        return rootView;
+    }
+
+    @Override
+    public void onViewCreated(final View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         ApiRequestTask informationTask = new ApiRequestTask(){
 
             @Override
             protected void onPostExecute(Object o) {
                 Information info = (Information) o;
-                TextView vw = (TextView) rootView.findViewById(R.id.breakfastTextView);
-                vw.setText(info.getBreakfast());
 
-                vw = (TextView) rootView.findViewById(R.id.telephoneView);
-                vw.setText(info.getTelephone());
+                if(view != null){
+                    TextView vw = (TextView) view.findViewById(R.id.breakfastTextView);
+                    vw.setText(info.getBreakfast());
 
-                vw = (TextView) rootView.findViewById(R.id.cellPhoneView);
-                vw.setText(info.getCellPhone());
+                    vw = (TextView) view.findViewById(R.id.telephoneView);
+                    vw.setText(info.getTelephone());
 
-                vw = (TextView) rootView.findViewById(R.id.emailView);
-                vw.setText(info.getEmail());
+                    vw = (TextView) view.findViewById(R.id.cellPhoneView);
+                    vw.setText(info.getCellPhone());
+
+                    vw = (TextView) view.findViewById(R.id.emailView);
+                    vw.setText(info.getEmail());
+
+                    swipeRefreshLayout.setRefreshing(false);
+                }
             }
-
         };
+        swipeRefreshLayout.setRefreshing(true);
         informationTask.execute(RequestType.INFORMATION, null, null);
-
-        return rootView;
     }
 
     @Override

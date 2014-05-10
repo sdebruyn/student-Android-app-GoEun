@@ -15,7 +15,7 @@
      />
 
     <TextView
-        android:id="@+id/textViewTitel"
+        android:id="@+id/textViewTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -24,7 +24,7 @@
 
 
     <TextView
-        android:id="@+id/textViewPrijs"
+        android:id="@+id/textViewPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/imageViewRoom"
@@ -38,7 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_below="@+id/textViewTitel"
+        android:layout_below="@+id/textViewTitle"
         android:layout_toRightOf="@+id/imageViewRoom" />
 
 </RelativeLayout>
