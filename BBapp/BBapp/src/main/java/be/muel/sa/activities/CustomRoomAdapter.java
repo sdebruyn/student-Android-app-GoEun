@@ -22,6 +22,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.NumberFormat;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import be.muel.sa.R;
 import be.muel.sa.data.ApiRequestTask;
@@ -54,7 +57,7 @@ public class CustomRoomAdapter extends ArrayAdapter<Room>{
         TextView txtType = (TextView) itemView.findViewById(R.id.textViewType);
         TextView txtPrijs = (TextView) itemView.findViewById(R.id.textViewPrijs);
 
-/*
+
         URLRequestTask URLTask = new URLRequestTask(){
 
             @Override
@@ -70,8 +73,17 @@ public class CustomRoomAdapter extends ArrayAdapter<Room>{
 
 
         URLTask.execute(currentRoom.getPhotos().get(0).getLink());
-*/
-        imageView.setImageBitmap(currentRoom.getPhotos().get(0).getBitmapLink());
+        try {
+            URLTask.get(500, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (TimeoutException e) {
+            e.printStackTrace();
+        }
+
+        //imageView.setImageBitmap(currentRoom.getPhotos().get(0).getBitmapLink());
         txtTitel.setText(currentRoom.getName());
 
         txtType.setText(currentRoom.getDescription());

@@ -273,25 +273,8 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
         try {
             int id = jObj.getInt("id");
             String link = jObj.getString("link");
-            final Photo photoTest = new Photo(id,link);
 
-            URLRequestTask URLTask = new URLRequestTask(){
-
-                @Override
-                protected void onPostExecute(Bitmap bitmap) {
-                    try
-                    {
-                        new URLRequestTask().execute(photoTest.getLink());
-                        photoTest.setBitmapLink(bitmap);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            };
-            URLTask.execute(photoTest.getLink());
-
-            photo = photoTest;
-
+            photo = new Photo(id,link);
         } catch (Exception e) {
             Log.d(DEBUG_TAG, e.toString(), e);
         }
