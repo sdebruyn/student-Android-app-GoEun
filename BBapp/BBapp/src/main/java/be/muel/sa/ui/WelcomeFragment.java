@@ -1,4 +1,4 @@
-package be.muel.sa.activities;
+package be.muel.sa.ui;
 
 import android.app.Activity;
 import android.app.Fragment;
