@@ -7,8 +7,17 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 import be.muel.sa.R;
+import be.muel.sa.data.ApiRequestTask;
+import be.muel.sa.data.RequestType;
+import be.muel.sa.entities.Promotion;
+import be.muel.sa.entities.Room;
 
 /**
  * Created by Samuel on 29/04/2014.
@@ -65,6 +74,31 @@ public class PromotionsFragment extends Fragment {
 
     private void doRefresh() {
         final View view = getView();
+
+        ApiRequestTask promotionsTask = new ApiRequestTask(){
+            @Override
+            protected void onPostExecute(Object o) {
+                if(view != null){
+                    List<Room> roomList =  (List<Room>) o;
+                    Iterator<Room> itr = roomList.iterator();
+
+                    List<Promotion> promotionsFromRoomsList = new LinkedList<Promotion>();
+                    while(itr.hasNext()){
+                        Room room = itr.next();
+                        Iterator<Promotion> promItr = room.getPromotions().iterator();
+                        while(promItr.hasNext()){
+                            promotionsFromRoomsList.add(promItr.next());
+                        }
+                    }
+
+                    ListView lvPromotions = (ListView) view.findViewById(R.id.lvPromotions);
+
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+            }
+        };
+        swipeRefreshLayout.setRefreshing(true);
+        promotionsTask.execute(RequestType.ROOMS, null, null);
     }
 
     @Override
