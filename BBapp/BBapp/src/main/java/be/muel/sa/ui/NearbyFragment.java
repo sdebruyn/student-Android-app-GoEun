@@ -2,8 +2,10 @@ package be.muel.sa.ui;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +23,19 @@ public class NearbyFragment extends Fragment {
      */
     private static final String ARG_SECTION_NUMBER = "section_number";
 
+    private static final String DEBUG_TAG = "BB_Nearby";
+
     private SwipeRefreshLayout swipeRefreshLayout;
+
+    public LocationProviderActivity getLocationProviderActivity() {
+        return locationProviderActivity;
+    }
+
+    public void setLocationProviderActivity(LocationProviderActivity locationProviderActivity) {
+        this.locationProviderActivity = locationProviderActivity;
+    }
+
+    private LocationProviderActivity locationProviderActivity;
 
     public NearbyFragment() {
 
@@ -31,11 +45,12 @@ public class NearbyFragment extends Fragment {
      * Returns a new instance of this fragment for the given section
      * number.
      */
-    public static NearbyFragment newInstance(int sectionNumber) {
+    public static NearbyFragment newInstance(int sectionNumber, LocationProviderActivity locationProviderActivity) {
         NearbyFragment fragment = new NearbyFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         fragment.setArguments(args);
+        fragment.setLocationProviderActivity(locationProviderActivity);
         return fragment;
     }
 
@@ -65,6 +80,11 @@ public class NearbyFragment extends Fragment {
 
     private void doRefresh() {
         final View view = getView();
+
+        Location location = getLocationProviderActivity().getLocationClient().getLastLocation();
+        Log.d(DEBUG_TAG, location.toString());
+
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override

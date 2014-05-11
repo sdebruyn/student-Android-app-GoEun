@@ -2,17 +2,28 @@ package be.muel.sa.ui;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.IntentSender;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Menu;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesClient;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.location.LocationClient;
 
 import be.muel.sa.R;
 
 public class MainActivity extends Activity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks,GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnectionFailedListener, LocationProviderActivity {
 
+    private static final int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
+    private static final String DEBUG_TAG = "BBAPP_Main";
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -22,6 +33,16 @@ public class MainActivity extends Activity
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
+
+    public LocationClient getLocationClient() {
+        return locationClient;
+    }
+
+    public void setLocationClient(LocationClient locationClient) {
+        this.locationClient = locationClient;
+    }
+
+    private LocationClient locationClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +57,20 @@ public class MainActivity extends Activity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        setLocationClient(new LocationClient(this, this, this));
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        getLocationClient().connect();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        getLocationClient().disconnect();
     }
 
     @Override
@@ -59,7 +94,7 @@ public class MainActivity extends Activity
                 newContent = InformationFragment.newInstance(fragmentNo);
                 break;
             case 5:
-                newContent = NearbyFragment.newInstance(fragmentNo);
+                newContent = NearbyFragment.newInstance(fragmentNo, this);
                 break;
         }
         fragmentManager.beginTransaction()
@@ -108,25 +143,79 @@ public class MainActivity extends Activity
         return super.onCreateOptionsMenu(menu);
     }
 
-/*
-    public static Bitmap getBitmapFromURL(String src) {
-        try {
-            Log.e("src", src);
-            URL url = new URL(src);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            Log.e("Bitmap","returned");
-            return myBitmap;
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.e("Exception",e.getMessage());
-            return null;
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkForGooglePlayServices();
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        Log.d(DEBUG_TAG, "Location Services connected.");
+    }
+
+    @Override
+    public void onDisconnected() {
+        Log.d(DEBUG_TAG, "Location Services disconnected.");
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        Log.d(DEBUG_TAG, "Location Services connection failed.");
+
+        if(connectionResult.hasResolution()){
+            try{
+                connectionResult.startResolutionForResult(this, CONNECTION_FAILURE_RESOLUTION_REQUEST);
+            }catch(IntentSender.SendIntentException e){
+                Log.e(DEBUG_TAG, "Google Play Services resolution intent failed.", e);
+            }
+        }else{
+            showGooglePlayServicesErrorDialog(connectionResult.getErrorCode());
         }
     }
-*/
+
+    public static class ErrorDialogFragment extends DialogFragment {
+        // Global field to contain the error dialog
+        private Dialog mDialog;
+        // Default constructor. Sets the dialog field to null
+        public ErrorDialogFragment() {
+            super();
+            mDialog = null;
+        }
+        // Set the dialog to display
+        public void setDialog(Dialog dialog) {
+            mDialog = dialog;
+        }
+        // Return a Dialog to the DialogFragment.
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            return mDialog;
+        }
+    }
+
+    public boolean checkForGooglePlayServices() {
+        int available = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+        if (available == ConnectionResult.SUCCESS) {
+            Log.d(DEBUG_TAG, "Google Play Services is available.");
+            return true;
+        } else {
+            showGooglePlayServicesErrorDialog(available);
+        }
+        return false;
+    }
+
+    public void showGooglePlayServicesErrorDialog(int errorCode){
+        Dialog errorDialog = GooglePlayServicesUtil.getErrorDialog(
+                errorCode,
+                this,
+                CONNECTION_FAILURE_RESOLUTION_REQUEST
+        );
+        if(errorDialog != null){
+            ErrorDialogFragment errorFragment = new ErrorDialogFragment();
+            errorFragment.setDialog(errorDialog);
+            errorFragment.show(getFragmentManager(), DEBUG_TAG);
+        }
+    }
 
 
 }
