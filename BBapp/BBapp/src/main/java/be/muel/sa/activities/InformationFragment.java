@@ -48,7 +48,7 @@ public class InformationFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_information, container, false);
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.information_swipe_layout);
-        if(swipeRefreshLayout != null)
+        if (swipeRefreshLayout != null)
             swipeRefreshLayout.setColorScheme(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
         return rootView;
     }
@@ -57,13 +57,26 @@ public class InformationFragment extends Fragment {
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ApiRequestTask informationTask = new ApiRequestTask(){
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                doRefresh();
+            }
+        });
+
+        doRefresh();
+    }
+
+    public void doRefresh() {
+        final View view = getView();
+
+        ApiRequestTask informationTask = new ApiRequestTask() {
 
             @Override
             protected void onPostExecute(Object o) {
                 Information info = (Information) o;
 
-                if(view != null){
+                if (view != null) {
                     TextView vw = (TextView) view.findViewById(R.id.breakfastTextView);
                     vw.setText(info.getBreakfast());
 

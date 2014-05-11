@@ -53,21 +53,34 @@ public class RoomsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_rooms, container, false);
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.room_swipe_layout);
-        if(swipeRefreshLayout != null)
+        if (swipeRefreshLayout != null)
             swipeRefreshLayout.setColorScheme(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
         return rootView;
     }
 
     @Override
-    public void onViewCreated(final View view, Bundle savedInstanceState) {
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ApiRequestTask roomsTask = new ApiRequestTask(){
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                doRefresh();
+            }
+        });
+
+        doRefresh();
+    }
+
+    public void doRefresh() {
+        final View view = getView();
+
+        ApiRequestTask roomsTask = new ApiRequestTask() {
             @Override
             protected void onPostExecute(Object o) {
                 List<Room> listRooms = (List<Room>) o;
 
-                if(view != null){
+                if (view != null) {
                     ArrayAdapter<Room> adapter = new CustomRoomAdapter(getActivity(), R.layout.roomadapater_row, listRooms);
                     ListView lv = (ListView) view.findViewById(R.id.listView);
                     lv.setAdapter(adapter);

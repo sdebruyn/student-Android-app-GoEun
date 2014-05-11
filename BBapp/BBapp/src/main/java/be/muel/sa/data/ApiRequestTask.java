@@ -2,7 +2,6 @@ package be.muel.sa.data;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -14,7 +13,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
@@ -24,7 +22,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import be.muel.sa.entities.Address;
 import be.muel.sa.entities.Country;
@@ -66,7 +63,7 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
     }
 
     private List<PlaceOfInterest> getPlacesOfInterest() {
-        if(CachedApiObjects.getInstance().getpOIList() == null) {
+        if (CachedApiObjects.getInstance().getpOIList() == null) {
 
             List<PlaceOfInterest> result = new ArrayList<PlaceOfInterest>();
             try {
@@ -106,7 +103,7 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
     }
 
     private Information getInformation() {
-        if(CachedApiObjects.getInstance().getInfoObject() == null) {
+        if (CachedApiObjects.getInstance().getInfoObject() == null) {
 
             Information inf = null;
             try {
@@ -127,7 +124,7 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
     }
 
     private List<Room> getRooms() {
-        if(CachedApiObjects.getInstance().getRoomList() == null) {
+        if (CachedApiObjects.getInstance().getRoomList() == null) {
 
             List<Room> result = new ArrayList<Room>();
             try {
@@ -164,16 +161,16 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
         return CachedApiObjects.getInstance().getRoomList();
     }
 
-    private Bitmap downloadImage(String url){
+    private Bitmap downloadImage(String url) {
         Bitmap result = null;
-        try{
+        try {
             URL photoUrl = new URL(url);
             HttpURLConnection conn = (HttpURLConnection) photoUrl.openConnection();
             conn.setDoInput(true);
             conn.connect();
             InputStream is = (InputStream) photoUrl.getContent();
             result = BitmapFactory.decodeStream(is);
-        }catch(Exception e){
+        } catch (Exception e) {
             Log.d(DEBUG_TAG, e.toString(), e);
         }
         return result;

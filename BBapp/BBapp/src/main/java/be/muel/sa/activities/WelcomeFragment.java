@@ -4,11 +4,9 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import be.muel.sa.R;
@@ -50,21 +48,34 @@ public class WelcomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_welcome, container, false);
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.welcome_swipe_layout);
-        if(swipeRefreshLayout != null)
+        if (swipeRefreshLayout != null)
             swipeRefreshLayout.setColorScheme(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
         return rootView;
     }
 
     @Override
-    public void onViewCreated(final View view, Bundle savedInstanceState) {
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if(view != null){
-            ApiRequestTask informationTask = new ApiRequestTask(){
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                doRefresh();
+            }
+        });
+
+        doRefresh();
+    }
+
+    private void doRefresh() {
+        final View view = getView();
+
+        ApiRequestTask informationTask = new ApiRequestTask() {
 
             @Override
             protected void onPostExecute(Object o) {
                 Information info = (Information) o;
-                if(view != null){
+                if (view != null) {
                     TextView vw = (TextView) view.findViewById(R.id.descriptionView);
                     vw.setText(info.getDescription());
                 }
@@ -74,7 +85,6 @@ public class WelcomeFragment extends Fragment {
         };
         swipeRefreshLayout.setRefreshing(true);
         informationTask.execute(RequestType.INFORMATION, null, null);
-        }
     }
 
     @Override

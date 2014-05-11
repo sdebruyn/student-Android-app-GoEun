@@ -4,20 +4,9 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.ImageView;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import be.muel.sa.R;
 
@@ -55,7 +44,7 @@ public class MainActivity extends Activity
         FragmentManager fragmentManager = getFragmentManager();
         Fragment newContent = null;
         int fragmentNo = position + 1;
-        switch(fragmentNo){
+        switch (fragmentNo) {
             default:
             case 1:
                 newContent = WelcomeFragment.newInstance(fragmentNo);

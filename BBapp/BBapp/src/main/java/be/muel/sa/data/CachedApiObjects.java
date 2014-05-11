@@ -11,16 +11,14 @@ import be.muel.sa.entities.Room;
  */
 public class CachedApiObjects {
     private static CachedApiObjects ourInstance = new CachedApiObjects();
-
-    public static synchronized CachedApiObjects getInstance() {
-        return ourInstance;
-    }
-
     private Information infoObject;
     private List<Room> roomList;
     private List<PlaceOfInterest> pOIList;
-
     private CachedApiObjects() {
+    }
+
+    public static synchronized CachedApiObjects getInstance() {
+        return ourInstance;
     }
 
     public Information getInfoObject() {
