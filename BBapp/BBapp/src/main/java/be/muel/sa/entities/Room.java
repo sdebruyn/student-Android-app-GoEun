@@ -1,5 +1,6 @@
 package be.muel.sa.entities;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,9 +15,9 @@ public class Room {
     private String name;
     private String description;
     private int type;
-    private double price;
+    private BigDecimal price;
 
-    public Room(int id, String name, String description, int type, double price) {
+    public Room(int id, String name, String description, int type, BigDecimal price) {
         setId(id);
         setName(name);
         setDescription(description);
@@ -58,11 +59,11 @@ public class Room {
         this.type = type;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

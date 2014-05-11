@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
 
@@ -41,8 +42,7 @@ public class CustomRoomAdapter extends ArrayAdapter<Room>{
 
         tvTitle.setText(currentRoom.getName());
         tvType.setText(currentRoom.getDescription());
-        NumberFormat nm = NumberFormat.getNumberInstance();
-        tvPrice.setText(nm.format(currentRoom.getPrice()));
+        tvPrice.setText(getContext().getString(R.string.price_per_night, currentRoom.getPrice()));
 
         if(currentRoom.getPhotos().size() > 0)
             imageView.setImageBitmap(currentRoom.getPhotos().get(0).getBitmap());

@@ -17,6 +17,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -183,10 +184,11 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
         try {
             int id = jObj.getInt("id");
             String name = jObj.getString("name");
-            int price = jObj.getInt("price");
+            double price = jObj.getDouble("price");
+            BigDecimal pDec = BigDecimal.valueOf(price);
             String desc = jObj.getString("description");
             int type = jObj.getInt("type");
-            result = new Room(id, name, desc, type, price);
+            result = new Room(id, name, desc, type, pDec);
         } catch (Exception e) {
             Log.d(DEBUG_TAG, e.toString(), e);
         }
