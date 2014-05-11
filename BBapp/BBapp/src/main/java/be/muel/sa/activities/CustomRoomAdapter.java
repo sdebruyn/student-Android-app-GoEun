@@ -45,7 +45,7 @@ public class CustomRoomAdapter extends ArrayAdapter<Room>{
         tvPrice.setText(nm.format(currentRoom.getPrice()));
 
         if(currentRoom.getPhotos().size() > 0)
-            currentRoom.getPhotos().get(0).getBitmap();
+            imageView.setImageBitmap(currentRoom.getPhotos().get(0).getBitmap());
 
         return itemView;
     }

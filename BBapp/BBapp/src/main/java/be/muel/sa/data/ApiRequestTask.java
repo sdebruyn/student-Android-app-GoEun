@@ -164,16 +164,18 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
     }
 
     private Bitmap downloadImage(String url){
+        Bitmap result = null;
         try{
             URL photoUrl = new URL(url);
             HttpURLConnection conn = (HttpURLConnection) photoUrl.openConnection();
             conn.setDoInput(true);
             conn.connect();
             InputStream is = (InputStream) photoUrl.getContent();
-            return BitmapFactory.decodeStream(is);
-        }catch(Exception ignored){
-            return null;
+            result = BitmapFactory.decodeStream(is);
+        }catch(Exception e){
+            Log.d(DEBUG_TAG, e.toString(), e);
         }
+        return result;
     }
 
     private Room parseRoom(JSONObject jObj) {
