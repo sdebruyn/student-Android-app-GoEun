@@ -5,12 +5,18 @@ import android.app.Fragment;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import be.muel.sa.R;
+import be.muel.sa.data.NearbyPOITask;
+import be.muel.sa.entities.PlaceOfInterest;
 
 /**
  * Created by Samuel on 29/04/2014.
@@ -81,11 +87,23 @@ public class NearbyFragment extends Fragment {
     private void doRefresh() {
         final View view = getView();
 
-        Location location = getLocationProviderActivity().getLocationClient().getLastLocation();
-        Log.d(DEBUG_TAG, location.toString());
+        NearbyPOITask nTask = new NearbyPOITask() {
+            @Override
+            protected void onPostExecute(List<PlaceOfInterest> placeOfInterests) {
+                swipeRefreshLayout.setRefreshing(false);
+                if(view != null){
+                    ArrayAdapter<PlaceOfInterest> adapter = new CustomPOIAdapter(getActivity(), R.layout.poiadapter_row, placeOfInterests);
+                    ListView lvNearby = (ListView) view.findViewById(R.id.lvNearby);
+                    lvNearby.setAdapter(adapter);
+                }
+            }
+        };
 
-        swipeRefreshLayout.setRefreshing(false);
+        swipeRefreshLayout.setRefreshing(true);
+        Location location = getLocationProviderActivity().getLocationClient().getLastLocation();
+        nTask.execute(location.getLatitude(), location.getLongitude());
     }
+
 
     @Override
     public void onAttach(Activity activity) {
