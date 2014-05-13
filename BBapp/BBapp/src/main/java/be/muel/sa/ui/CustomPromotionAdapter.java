@@ -32,7 +32,7 @@ public class CustomPromotionAdapter extends ArrayAdapter {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         if (itemView == null)
-            itemView = inflater.inflate(R.layout.roomadapater_row, null);
+            itemView = inflater.inflate(R.layout.promoadapter_row, null);
 
         Promotion currentPromotion = getListPromotionsAdapter().get(position);
 
