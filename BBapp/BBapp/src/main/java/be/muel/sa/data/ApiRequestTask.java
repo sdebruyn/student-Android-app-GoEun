@@ -138,10 +138,19 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
                         }
                         JSONArray jPromotions = obj.getJSONArray("Promotion");
                         for (int k = 0; k < jPromotions.length(); k++) {
-                            Promotion promotion = parsePromotion(jPromotions.getJSONObject(k));
+                            JSONObject jCurrentPromo = jPromotions.getJSONObject(k);
+                            Promotion promotion = parsePromotion(jCurrentPromo);
                             if (promotion != null) {
                                 promotion.setRoom(room);
                                 room.addPromotion(promotion);
+                            }
+                            JSONArray jPromoPhotos = jCurrentPromo.getJSONArray("Photo");
+                            for(int l = 0; l < jPromoPhotos.length(); l++){
+                                Photo promoPhoto = parsePhoto(jPromoPhotos.getJSONObject(l));
+                                if(promoPhoto != null){
+                                    promoPhoto.setPromotion(promotion);
+                                    promotion.addPhoto(promoPhoto);
+                                }
                             }
                         }
                         result.add(room);
