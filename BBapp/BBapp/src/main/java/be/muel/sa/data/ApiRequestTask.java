@@ -40,8 +40,6 @@ import be.muel.sa.entities.WeekDay;
 public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
 
     private final static String DEBUG_TAG = "BBappAPI";
-    private static final String baseUrl = "http://mi4.sa.muel.be/";
-    private static final AndroidHttpClient client = AndroidHttpClient.newInstance("Android BBApp");
 
     @Override
     protected Object doInBackground(RequestType... requestTypes) {
@@ -58,16 +56,12 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
 
     }
 
-    private String getAbsoluteUrl(String relativeUrl) {
-        return baseUrl + relativeUrl;
-    }
-
     private List<PlaceOfInterest> getPlacesOfInterest() {
         if (CachedApiObjects.getInstance().getpOIList() == null) {
 
             List<PlaceOfInterest> result = new ArrayList<PlaceOfInterest>();
             try {
-                JSONObject response = getResponse("places_of_interest");
+                JSONObject response = NetworkRequest.getResponse("places_of_interest");
                 JSONArray iResponse = response.getJSONArray("places_of_interest");
                 for (int i = 0; i < iResponse.length(); i++) {
                     JSONObject obj = iResponse.getJSONObject(i);
@@ -107,7 +101,7 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
 
             Information inf = null;
             try {
-                JSONObject response = getResponse("information");
+                JSONObject response = NetworkRequest.getResponse("information");
                 JSONObject iResponse = response.getJSONObject("information").getJSONObject("Information");
                 String telephone = iResponse.getString("telephone");
                 String cell = iResponse.getString("cell_phone");
@@ -128,7 +122,7 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
 
             List<Room> result = new ArrayList<Room>();
             try {
-                JSONObject response = getResponse("rooms");
+                JSONObject response = NetworkRequest.getResponse("rooms");
                 JSONArray iResponse = response.getJSONArray("rooms");
                 for (int i = 0; i < iResponse.length(); i++) {
                     JSONObject obj = iResponse.getJSONObject(i);
@@ -210,7 +204,7 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
     private Country getCountry(int id) {
         Country result = null;
         try {
-            JSONObject response = getResponse("countries/" + String.valueOf(id)).getJSONObject("country").getJSONObject("Country");
+            JSONObject response = NetworkRequest.getResponse("countries/" + String.valueOf(id)).getJSONObject("country").getJSONObject("Country");
             String name = response.getString("name");
             result = new Country(id, name);
         } catch (Exception e) {
@@ -307,34 +301,4 @@ public class ApiRequestTask extends AsyncTask<RequestType, Void, Object> {
         }
         return promotion;
     }
-
-    private JSONObject getResponse(String relativeUrl) {
-        HttpGet request = new HttpGet(getAbsoluteUrl(relativeUrl));
-        request.addHeader("Accept", "application/json, text/json");
-        request.addHeader("Accept-Charset", "utf-8");
-        try {
-            HttpResponse response = client.execute(request);
-            int code = response.getStatusLine().getStatusCode();
-            if (code >= 300)
-                return null;
-
-            HttpEntity entity = response.getEntity();
-            InputStreamReader iReader = new InputStreamReader(entity.getContent(), "UTF-8");
-            BufferedReader bReader = new BufferedReader(iReader);
-            StringBuilder sb = new StringBuilder();
-            String str;
-            while ((str = bReader.readLine()) != null) {
-                sb.append(str);
-            }
-            String result = sb.toString();
-            JSONObject jResult = new JSONObject(result);
-            return jResult;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-
 }
