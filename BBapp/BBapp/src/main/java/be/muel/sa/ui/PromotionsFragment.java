@@ -90,9 +90,9 @@ public class PromotionsFragment extends Fragment {
                             promotionsFromRoomsList.add(promItr.next());
                         }
                     }
-
+                    CustomPromotionAdapter promotionAdapter = new CustomPromotionAdapter(getActivity(),R.layout.fragment_promotions,promotionsFromRoomsList);
                     ListView lvPromotions = (ListView) view.findViewById(R.id.lvPromotions);
-
+                    lvPromotions.setAdapter(promotionAdapter);
                     swipeRefreshLayout.setRefreshing(false);
                 }
             }

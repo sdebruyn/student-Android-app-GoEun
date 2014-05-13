@@ -37,7 +37,7 @@ public class CustomRoomAdapter extends ArrayAdapter<Room> {
 
         ImageView imageView = (ImageView) itemView.findViewById(R.id.imageViewRoom);
         TextView tvTitle = (TextView) itemView.findViewById(R.id.textViewTitle);
-        TextView tvType = (TextView) itemView.findViewById(R.id.textViewType);
+        TextView tvType = (TextView) itemView.findViewById(R.id.textViewDescription);
         TextView tvPrice = (TextView) itemView.findViewById(R.id.textViewPrice);
 
         tvTitle.setText(currentRoom.getName());

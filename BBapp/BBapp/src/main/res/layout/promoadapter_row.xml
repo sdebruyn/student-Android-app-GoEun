@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/imageViewRoom"
+        android:id="@+id/imageViewPromoRoom"
         android:layout_width="150px"
         android:layout_height="150px"
         android:layout_alignParentLeft="true"
@@ -18,18 +18,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/imageViewRoom"
+        android:layout_toRightOf="@+id/imageViewPromoRoom"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-
-
-    <TextView
-        android:id="@+id/textViewPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/imageViewRoom"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="false"
-        android:layout_marginRight="42dp" />
 
 
     <TextView
@@ -37,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textViewTitle"
-        android:layout_toRightOf="@+id/imageViewRoom"
+        android:layout_toRightOf="@+id/imageViewPromoRoom"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>
