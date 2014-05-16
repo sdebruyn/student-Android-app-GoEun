@@ -142,6 +142,8 @@ public class NetworkRequest {
             String locality = "";
             String region = "";
             String zipCode = "";
+            double latitude = 0;
+            double longitude = 0;
             if (!jObj.isNull("address_line_1")) {
                 aL1 = jObj.getString("address_line_1");
             }
@@ -163,7 +165,15 @@ public class NetworkRequest {
             if (!jObj.isNull("zipcode")) {
                 zipCode = jObj.getString("zipcode");
             }
+            if(!jObj.isNull("latitude")){
+                latitude = jObj.getDouble("latitude");
+            }
+            if(!jObj.isNull("longitude")){
+                longitude = jObj.getDouble("longitude");
+            }
             result = new Address(id, name, aL1, aL2, aL3, aL4, locality, region, zipCode, country);
+            result.setLatitude(latitude);
+            result.setLongitude(longitude);
         } catch (Exception e) {
             Log.d(DEBUG_TAG, e.toString(), e);
         }

@@ -6,7 +6,9 @@ package be.muel.sa.entities;
 public enum POIType {
 
     RESTAURANT,
-    MUSEUM;
+    MUSEUM,
+    BAR,
+    PARK;
 
     public static POIType fromInt(int input) {
         switch (input) {
@@ -15,6 +17,10 @@ public enum POIType {
                 return RESTAURANT;
             case 1:
                 return MUSEUM;
+            case 2:
+                return BAR;
+            case 3:
+                return PARK;
         }
     }
 

@@ -38,14 +38,12 @@ public class CustomPOIAdapter extends ArrayAdapter{
 
         PlaceOfInterest placeOfInterest = getListPOIAdapter().get(position);
 
-        ImageView imageView = (ImageView) itemView.findViewById(R.id.imageViewPromoRoom);
+        ImageView imageView = (ImageView) itemView.findViewById(R.id.imageViewPOI);
         TextView tvTitle = (TextView) itemView.findViewById(R.id.textViewTitle);
         TextView tvDescription = (TextView) itemView.findViewById(R.id.textViewDescription);
-        TextView tvTravelTime = (TextView) itemView.findViewById(R.id.textViewTravelTime);
 
         tvTitle.setText(placeOfInterest.getName());
-        tvDescription.setText(placeOfInterest.getType().toString());
-        tvTravelTime.setText(placeOfInterest.getType().toString());
+        tvDescription.setText(placeOfInterest.getType().toString().toLowerCase());
 
         if (placeOfInterest.getPhotos().size() > 0)
             imageView.setImageBitmap(placeOfInterest.getPhotos().get(0).getBitmap());

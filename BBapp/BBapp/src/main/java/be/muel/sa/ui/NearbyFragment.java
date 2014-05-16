@@ -2,12 +2,15 @@ package be.muel.sa.ui;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -95,6 +98,18 @@ public class NearbyFragment extends Fragment {
                     ArrayAdapter<PlaceOfInterest> adapter = new CustomPOIAdapter(getActivity(), R.layout.poiadapter_row, placeOfInterests);
                     ListView lvNearby = (ListView) view.findViewById(R.id.lvNearby);
                     lvNearby.setAdapter(adapter);
+                    lvNearby.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                            PlaceOfInterest poiAtPos = (PlaceOfInterest) adapterView.getItemAtPosition(i);
+                            Uri uri = Uri.parse("geo:0,0?q=" + poiAtPos.getAddress().getLatitude() + "," + poiAtPos.getAddress().getLongitude() + "(" + poiAtPos.getName() + ")");
+                            Intent intent = new Intent(Intent.ACTION_VIEW);
+                            intent.setData(uri);
+                            if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+                                startActivity(intent);
+                            }
+                        }
+                    });
                 }
             }
         };
